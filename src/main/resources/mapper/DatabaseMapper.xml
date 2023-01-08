@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kang.database.mapper.DatabaseMapper">
+
+    <select id="isTable" resultType="java.lang.Integer">
+        SELECT
+            count( * )
+        FROM
+            INFORMATION_SCHEMA.TABLES
+        WHERE
+            table_schema = ( SELECT DATABASE ( ) )
+          AND table_name = #{tableName}
+          AND table_type = 'BASE TABLE';
+
+    </select>
+
+    <insert id="newTable" parameterType="com.kang.database.vo.FaTableVo">
+        CREATE TABLE ${tableVo.name}
+            <foreach collection="tableVo.fields" item="field" open="(" separator=","
+                     close=")">
+            ${field.fieldName} ${field.fieldType}(${field.length})
+            <if test="!field.isNull"> not null</if>
+                <if test="field.isMajorKey"> primary key</if>
+                COMMENT #{field.comment}
+            </foreach>
+    </insert>
+</mapper>

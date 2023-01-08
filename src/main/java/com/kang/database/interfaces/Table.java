@@ -1,0 +1,18 @@
+package com.kang.database.interfaces;
+
+import java.lang.annotation.*;
+
+/**
+ * 该注解表明此类为数据表的实体类，需要判断数据库中是否有该数据表
+ *
+ * @author K.faWu
+ * @program LowCode
+ * @date 2023-01-06 13:45
+ **/
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+@Documented
+public @interface Table {
+}
