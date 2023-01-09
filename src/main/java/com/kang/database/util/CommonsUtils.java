@@ -46,11 +46,12 @@ public class CommonsUtils {
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
 
     /**
-     * 驼峰转下划线,最后转为大写
+     * 驼峰转下划线（首字母大写不转下划线）,最后转为大写
      * @param str
      * @return
      */
     public static String humpToLine(String str) {
+        str = topCharSmall(str);
         Matcher matcher = humpPattern.matcher(str);
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
@@ -75,6 +76,11 @@ public class CommonsUtils {
         return sb.toString();
     }
 
+    /**
+     * 首字母小写
+     * @param str
+     * @return
+     */
     public static String topCharSmall(String str){
         //如果字符串str为null和""则返回原数据
         if (str==null||"".equals(str)){

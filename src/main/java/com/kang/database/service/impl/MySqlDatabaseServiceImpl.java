@@ -1,6 +1,5 @@
 package com.kang.database.service.impl;
 
-import com.kang.database.entity.BaseEntity;
 import com.kang.database.entity.FaField;
 import com.kang.database.interfaces.Id;
 import com.kang.database.interfaces.NotTable;
@@ -13,7 +12,6 @@ import com.kang.database.vo.FaTableVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,12 +54,11 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
             // 当存在id注解时，使用id注解
             Id id = field.getAnnotation(Id.class);
             if (CommonsUtils.isNotEmpty(id)) {
-                Annotation[] annotations = id.annotationType().getAnnotations();
                 annotation = id.annotationType().getAnnotation(com.kang.database.interfaces.Field.class);
             }
             if (CommonsUtils.isNotEmpty(annotation)) {
                 // 例用field注解中的信息组装成数据表中的字段信息
-                FaField faField = new FaField(clazz.getName(), field.getName(), annotation);
+                FaField faField = new FaField(clazz.getName(), CommonsUtils.humpToLine(field.getName()), annotation);
                 faFields.add(faField);
             }
         }
@@ -81,9 +78,8 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
     @Override
     public void saveTable(List<Class<?>> tables) {
         for (Class<?> clazz : tables) {
-            String classname = clazz.getSimpleName();
-            
-            String tableName = CommonsUtils.humpToLine(CommonsUtils.topCharSmall(classname));
+
+            String tableName = CommonsUtils.humpToLine(clazz.getSimpleName());
             if (!isHaveTable(tableName)) {
                 FaTableVo faTableVo = entityToVo(tableName, clazz);
                 newTable(faTableVo);
@@ -94,7 +90,7 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
     @Override
     public List<Class<?>> classIsBaseEntity(Set<Class<?>> classSet) {
         List<Class<?>> list = new ArrayList<>();
-        for (Class clazz : classSet) {
+        for (Class<?> clazz : classSet) {
             if (CommonsUtils.isNotEmpty(clazz.getAnnotation(Table.class)) &&
             CommonsUtils.isEmpty(clazz.getAnnotation(NotTable.class))) {
                 list.add(clazz);

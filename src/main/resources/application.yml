@@ -1,55 +1,22 @@
 server:
   servlet:
-    context-path: /
-  port: 8080
+    context-path: ${SERVLET_CONTEXT_PATH:/}
+  port: ${SERVER_PORT}
 
 spring:
-  application:
-    name: blog-service
-
+  profiles:
+    active: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/lowCode?serverTimezone=UTC
-    username: root
-    password: root
-    #   Druid数据源配置
-    # 初始连接数
-    initialSize: 5
-    # 最小连接池数量
-    minIdle: 10
-    # 最大连接池数量
-    maxActive: 20
-    # 配置获取连接等待超时的时间
-    maxWait: 60000
-    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
-    timeBetweenEvictionRunsMillis: 60000
-    # 配置一个连接在池中最小生存的时间，单位是毫秒
-    minEvictableIdleTimeMillis: 300000
-    # 配置一个连接在池中最大生存的时间，单位是毫秒
-    maxEvictableIdleTimeMillis: 900000
-    # 配置检测连接是否有效
-    validationQuery: SELECT 1 FROM DUAL
-    #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
-    testWhileIdle: true
-    #配置从连接池获取连接时，是否检查连接有效性，true每次都检查；false不检查。做了这个配置会降低性能。
-    testOnBorrow: false
-    #配置向连接池归还连接时，是否检查连接有效性，true每次都检查；false不检查。做了这个配置会降低性能。
-    testOnReturn: false
-    #打开PsCache，并且指定每个连接上PSCache的大小
-    poolPreparedStatements: true
-    maxPoolPreparedStatementPerConnectionSize: 20
-    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
-    filters: stat,wall,log4j
-    #合并多个DruidDatasource的监控数据
-    useGlobalDataSourceStat: true
-    #通过connectProperties属性来打开mergesql功能罗慢sQL记录
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500;
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/${DATABASE}?serverTimezone=UTC&allowMultiQueries=true&characterEncoding=UTF8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD}
   redis:
     host: 127.0.0.1
     # redis服务器地址
     port: 6379
     # 默认端口就是6379 可不配置
-    #password: kang # redis服务器连接密码（默认为空）
+    #password:  # redis服务器连接密码（默认为空）
     database: 0
     #使用Redis0号库
     jedis:
@@ -58,42 +25,11 @@ spring:
         # 连接池最大连接数（如果配置为<=0，则没有限制）
 
 mybatis-plus:
-  type-aliases-package: com.kang.entity
-  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: ${ENTITY_PATH}
+  mapper-locations: ${MAPPER_PATH}
 
 logging:
   level:
-    com.kang.mapper: debug
+    com.kang: DEBUG
+    org.springframework.boot.autoconfigure: error
   config: classpath:logback-boot.xml
-
-ribbon:
-  ReadTimeout: 60000
-  ConnectTimeout: 60000
-  MaxAutoRetries: 0
-  MaxAutoRetriesNextServer: 1
-
-
-
-# 腾讯云 配置
-tencent:
-  # 短信应用SDK AppID
-  appid: 1400568536
-  # 短信应用SDK AppKey
-  appkey: ae3b0475c088d74e9ab0633373144744
-  # 短信模板ID
-  # 注册
-  registerId: 1135711
-  # 登录
-  loginId: 1109300
-  # 祝福
-  birthId: 1230069
-  # 短信签名内容
-  sign: 法兀IT学习资料
-
-
-# 七牛云 配置
-qiniuyun:
-  accessKey: 4MYemSIHcbIwG6nZff0W-tssOaKsS1YLMhNcEuBi
-  secretKey: gHvLxEdaKdyHA2v4a1PauyDcuP7NserGqm9h-uYd
-  bucket: fawu
-  domain: http://cdn.fawukang.top/

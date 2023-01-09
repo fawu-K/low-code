@@ -40,3 +40,4 @@ build/
 ### log ###
 /log/**
 *.log
+*-dev.yml
