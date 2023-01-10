@@ -14,6 +14,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@Field(value = FieldType.BIGINT, length = 38, isNull = false, isMajorKey = true, comment = "ID")
+@Field(fieldType = FieldType.BIGINT, length = 38, isNull = false, isMajorKey = true, comment = "ID")
 public @interface Id{
 }

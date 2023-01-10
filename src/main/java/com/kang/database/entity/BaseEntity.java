@@ -27,10 +27,10 @@ public class BaseEntity implements Serializable {
     @Field(length = 20, comment = "修改者")
     private String updator;
 
-    @Field(value = FieldType.TIMESTAMP, length = 0, comment = "创建时间")
+    @Field(fieldType = FieldType.TIMESTAMP, length = 0, comment = "创建时间")
     private ZonedDateTime created;
 
-    @Field(value = FieldType.TIMESTAMP, length = 0, comment = "修改时间")
+    @Field(fieldType = FieldType.TIMESTAMP, length = 0, comment = "修改时间")
     private ZonedDateTime updated;
 
 }

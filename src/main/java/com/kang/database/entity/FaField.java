@@ -37,13 +37,13 @@ public class FaField extends BaseEntity {
     /**
      * 字段长度
      */
-    @Field(value = FieldType.INT, length = 2, comment = "字段长度")
+    @Field(fieldType = FieldType.INT, length = 2, comment = "字段长度")
     private Integer length;
 
     /**
      * 小数点后位数
      */
-    @Field(value = FieldType.INT, length = 2, comment = "小数点后位数")
+    @Field(fieldType = FieldType.INT, length = 2, comment = "小数点后位数")
     private Integer decimals;
 
     /**
@@ -69,7 +69,7 @@ public class FaField extends BaseEntity {
     public FaField(String tableName, String fieldName, Field field) {
         this.tableName = tableName;
         this.fieldName = fieldName;
-        this.fieldType = field.value().name();
+        this.fieldType = field.fieldType().name();
         this.length = field.length();
         this.decimals = field.decimal();
         this.isNull = field.isNull();

@@ -17,10 +17,10 @@ import java.lang.annotation.*;
 public @interface Field {
 
     /**
-     * value表示字段类型
+     * 表示字段类型
      * @default: {@code Type.VARCHAR}
      */
-    FieldType value() default FieldType.VARCHAR;
+    FieldType fieldType() default FieldType.VARCHAR;
 
     /**
      * 字段的长度
