@@ -22,7 +22,6 @@ import java.util.Set;
  **/
 @Slf4j
 @Component
-@SpringBootApplication
 public class DatabaseFactory implements CommandLineRunner {
     private final ApplicationContext applicationContext;
 
