@@ -36,7 +36,7 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
 
     @Override
     public void newTable(FaTableVo tableVo) {
-      log.debug("构建数据表{}", tableVo.getName());
+      log.debug("[{}] 表格构建", tableVo.getName());
       dbMapper.newTable(tableVo);
     }
 
@@ -69,7 +69,7 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
 
     @Override
     public boolean isHaveTable(String tableName) {
-        log.debug("查询表[{}]是否存在", tableName);
+        log.debug("检测表[{}]", tableName);
         int isTable = dbMapper.isTable(tableName);
 
         return isTable != 0;

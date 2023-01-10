@@ -51,7 +51,11 @@ public class DatabaseFactory implements CommandLineRunner {
         if (enableAutoDB != null) {
             // 实体类生成数据表
             if (enableAutoDB.entityToTable()) {
-                Set<Class<?>> aClass = getClass(mainClazz);
+                // 该框架下的所有类
+                Set<Class<?>> aClass = ClassUtil.getClassSet("com.kang");
+                // 用户的所有类
+                aClass.addAll(getClass(mainClazz));
+
                 DatabaseService databaseService = (DatabaseService) applicationContext.getBean("mySqlDatabaseServiceImpl");
                 List<Class<?>> tables = databaseService.classIsBaseEntity(aClass);
                 databaseService.saveTable(tables);
