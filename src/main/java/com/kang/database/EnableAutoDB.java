@@ -1,5 +1,7 @@
 package com.kang.database;
 
+import org.springframework.context.annotation.Import;
+
 import java.lang.annotation.*;
 
 /**
@@ -15,6 +17,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
+@Import(DatabaseRegistrar.class)
 public @interface EnableAutoDB {
     /**
      * 是否开启实体类生成数据表
