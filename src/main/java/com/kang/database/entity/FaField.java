@@ -68,7 +68,11 @@ public class FaField extends BaseEntity {
 
     public FaField(String tableName, String fieldName, Field field) {
         this.tableName = tableName;
-        this.fieldName = fieldName;
+        if ("".equals(field.name())) {
+            this.fieldName = fieldName;
+        } else {
+            this.fieldName = field.name();
+        }
         this.fieldType = field.fieldType().name();
         this.length = field.length();
         this.decimals = field.decimal();

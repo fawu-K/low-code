@@ -15,4 +15,10 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 public @interface Table {
+
+    /**
+     * 指定表名，若不指定则使用实体类名作为数据表名
+     * @return
+     */
+    String name() default "";
 }

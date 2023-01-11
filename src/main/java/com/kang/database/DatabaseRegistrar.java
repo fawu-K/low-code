@@ -1,16 +1,16 @@
 package com.kang.database;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScannerRegistrar;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
 
 
 /**
+ * 该类通过实现{@link ImportBeanDefinitionRegistrar}接口将包内的bean都注入到spring容器中
+ *
  * @author K.faWu
  * @program low-code
  * @date 2023-01-10 11:19
@@ -24,7 +24,6 @@ public class DatabaseRegistrar extends MapperScannerRegistrar implements ImportB
         //扫描类
         ClassPathBeanDefinitionScanner scanner =
                 new ClassPathBeanDefinitionScanner(registry);
-        scanner.addIncludeFilter(new AnnotationTypeFilter(Mapper.class));
         scanner.scan("com.kang");
     }
 }

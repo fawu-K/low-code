@@ -15,6 +15,11 @@ import java.lang.annotation.*;
 @Inherited
 @Documented
 public @interface Field {
+    /**
+     * 字段名称，不填写则以实体类的属性名为字段名
+     * @return
+     */
+    String name() default "";
 
     /**
      * 表示字段类型
