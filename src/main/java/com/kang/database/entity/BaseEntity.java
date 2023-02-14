@@ -1,9 +1,8 @@
 package com.kang.database.entity;
 
-import com.kang.database.interfaces.Field;
-import com.kang.database.interfaces.FieldType;
-import com.kang.database.interfaces.Id;
-import com.kang.database.interfaces.Table;
+import com.kang.database.annotation.Field;
+import com.kang.database.annotation.FieldType;
+import com.kang.database.annotation.Id;
 import lombok.Data;
 
 import java.io.Serializable;

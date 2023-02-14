@@ -8,10 +8,18 @@
         FROM
             INFORMATION_SCHEMA.TABLES
         WHERE
-            table_schema = ( SELECT DATABASE ( ) )
+            table_schema = (SELECT DATABASE())
           AND table_name = #{tableName}
           AND table_type = 'BASE TABLE';
 
+    </select>
+    <select id="getTableFields" resultType="com.kang.database.entity.Column">
+        select
+            *
+        from INFORMATION_SCHEMA.COLUMNS
+        where
+            TABLE_SCHEMA = (SELECT DATABASE())
+          and TABLE_NAME = #{tableName}
     </select>
 
     <insert id="newTable" parameterType="com.kang.database.vo.FaTableVo">

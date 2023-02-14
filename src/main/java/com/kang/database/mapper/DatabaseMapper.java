@@ -1,8 +1,11 @@
 package com.kang.database.mapper;
 
+import com.kang.database.entity.Column;
 import com.kang.database.vo.FaTableVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author K.faWu
@@ -21,4 +24,11 @@ public interface DatabaseMapper {
     int isTable(String tableName);
 
     void newTable(@Param("tableVo") FaTableVo tableVo);
+
+    /**
+     * 获取表的所有字段
+     * @param tableName 数据表名
+     * @return 所有字段
+     */
+    List<Column> getTableFields(String tableName);
 }

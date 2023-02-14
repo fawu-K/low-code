@@ -1,4 +1,4 @@
-package com.kang.database.interfaces;
+package com.kang.database.annotation;
 
 import java.lang.annotation.*;
 

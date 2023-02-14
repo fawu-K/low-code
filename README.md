@@ -27,8 +27,8 @@ MAPPER_PATH: classpath:mapper/*.xml
 
 使用方式：在启动类上添加[@EnableAutoDB](src/main/java/com/kang/database/EnableAutoDB.java)注解
 
-在需要生成数据表的实体类上添加[@Table](src/main/java/com/kang/database/interfaces/Table.java)注解且继承[BaseEntity](src/main/java/com/kang/database/entity/BaseEntity.java)类
+在需要生成数据表的实体类上添加[@Table](src/main/java/com/kang/database/annotation/Table.java)注解且继承[BaseEntity](src/main/java/com/kang/database/entity/BaseEntity.java)类
 @Table注解是作为识别为实体类的标志，而BaseEntity类作为所有实体类的母类它有着数据表必须的几个字段：
 > id、creator、updator、created、updated
 
-到这里你会发现还有一个[@NotTable](src/main/java/com/kang/database/interfaces/NotTable.java)注解，正如它的表意一样，表示该类不为实体类。由于@Table注解具有可继承性，这就导致实体类的子类同样会被识别为数据表从而消耗数据库的资源。因此若实体类的子类不为实体类时，需要添加@NotTable作为非实体类的标志。
+到这里你会发现还有一个[@NotTable](src/main/java/com/kang/database/annotation/NotTable.java)注解，正如它的表意一样，表示该类不为实体类。由于@Table注解具有可继承性，这就导致实体类的子类同样会被识别为数据表从而消耗数据库的资源。因此若实体类的子类不为实体类时，需要添加@NotTable作为非实体类的标志。

@@ -2,7 +2,7 @@ package com.kang.database.vo;
 
 import com.kang.database.entity.FaField;
 import com.kang.database.entity.FaTable;
-import com.kang.database.interfaces.NotTable;
+import com.kang.database.annotation.NotTable;
 import lombok.Data;
 
 import java.util.List;

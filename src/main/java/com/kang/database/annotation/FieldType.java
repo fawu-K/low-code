@@ -1,4 +1,4 @@
-package com.kang.database.interfaces;
+package com.kang.database.annotation;
 
 /**
  * {@link Field}的value值使用枚举

@@ -2,10 +2,10 @@ package com.kang.database.factory;
 
 import com.kang.database.EnableAutoDB;
 import com.kang.database.service.DatabaseService;
+import com.kang.database.service.TableService;
 import com.kang.database.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +23,18 @@ import java.util.Set;
 @Slf4j
 @Component
 public class DatabaseFactory implements CommandLineRunner {
+
+    public final static String PACKAGE_NAME = "com.kang";
     private final ApplicationContext applicationContext;
 
-    public DatabaseFactory(ApplicationContext applicationContext) {
+    private final TableService tableService;
+
+    private final DatabaseService databaseService;
+
+    public DatabaseFactory(ApplicationContext applicationContext, TableService tableService, DatabaseService databaseService) {
         this.applicationContext = applicationContext;
+        this.tableService = tableService;
+        this.databaseService = databaseService;
     }
 
     @Override
@@ -52,12 +60,11 @@ public class DatabaseFactory implements CommandLineRunner {
             // 实体类生成数据表
             if (enableAutoDB.entityToTable()) {
                 // 该框架下的所有类
-                Set<Class<?>> aClass = ClassUtil.getClassSet("com.kang");
+                Set<Class<?>> aClass = ClassUtil.getClassSet(PACKAGE_NAME);
                 // 用户的所有类
                 aClass.addAll(getClass(mainClazz));
 
-                DatabaseService databaseService = (DatabaseService) applicationContext.getBean("mySqlDatabaseServiceImpl");
-                List<Class<?>> tables = databaseService.classIsBaseEntity(aClass);
+                List<Class<?>> tables = tableService.classIsBaseEntity(aClass);
                 databaseService.saveTable(tables);
             }
             // 数据表转实体类

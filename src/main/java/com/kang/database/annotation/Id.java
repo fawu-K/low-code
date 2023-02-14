@@ -1,9 +1,9 @@
-package com.kang.database.interfaces;
+package com.kang.database.annotation;
 
 import java.lang.annotation.*;
 
 /**
- * {@link com.kang.database.interfaces.Field}注解的特殊形式，主键注解
+ * {@link com.kang.database.annotation.Field}注解的特殊形式，主键注解
  *
  * @author K.faWu
  * @program LowCode
