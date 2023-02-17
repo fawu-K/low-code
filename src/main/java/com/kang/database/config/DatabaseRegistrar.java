@@ -1,6 +1,6 @@
-package com.kang.database;
+package com.kang.database.config;
 
-import com.kang.database.factory.DatabaseFactory;
+import com.kang.common.constant.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScannerRegistrar;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -25,6 +25,6 @@ public class DatabaseRegistrar extends MapperScannerRegistrar implements ImportB
         //扫描类
         ClassPathBeanDefinitionScanner scanner =
                 new ClassPathBeanDefinitionScanner(registry);
-        scanner.scan(DatabaseFactory.PACKAGE_NAME);
+        scanner.scan(Constants.PACKAGE_NAME);
     }
 }

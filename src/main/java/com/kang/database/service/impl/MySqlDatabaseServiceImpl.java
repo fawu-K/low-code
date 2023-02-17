@@ -1,16 +1,14 @@
 package com.kang.database.service.impl;
 
 import com.kang.database.entity.Column;
-import com.kang.database.entity.FaField;
 import com.kang.database.mapper.DatabaseMapper;
 import com.kang.database.service.DatabaseService;
 import com.kang.database.service.TableService;
-import com.kang.database.util.CommonsUtils;
+import com.kang.common.util.CommonsUtils;
 import com.kang.database.vo.FaTableVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -35,7 +33,7 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
 
     @Override
     public void newTable(FaTableVo tableVo) {
-      log.debug("[{}] 表格构建", tableVo.getName());
+      log.debug("[{}] 表格构建", tableVo.getTableName());
       dbMapper.newTable(tableVo);
     }
 
@@ -66,7 +64,7 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
 
     @Override
     public boolean isTableToEntityField(FaTableVo faTableVo) {
-        List<Column> list = dbMapper.getTableFields(faTableVo.getName());
+        List<Column> list = dbMapper.getTableFields(faTableVo.getTableName());
         return false;
     }
 

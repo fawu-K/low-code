@@ -29,4 +29,18 @@ public interface TableService {
      * @return vo对象
      */
     FaTableVo entityToVo(String tableName, Class<?> baseEntity);
+
+    /**
+     * 从实体类中获取他们所对应的表格信息
+     * @param classes 实体类
+     * @return 表格名称
+     */
+    List<String> entityToTable(List<Class<?>> classes);
+
+    /**
+     * 从实体类中获取他所对应的表格信息
+     * @param clazz 实体类
+     * @return 表格名称
+     */
+    String entityToTable(Class<?> clazz);
 }

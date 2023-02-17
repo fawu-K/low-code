@@ -5,6 +5,8 @@ import com.kang.database.annotation.FieldType;
 import com.kang.database.annotation.Table;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * 字段类
  *
@@ -14,7 +16,7 @@ import lombok.Data;
  **/
 @Data
 @Table
-public class FaField extends BaseEntity {
+public class FaField extends BaseEntity implements Serializable {
 
     /**
      * 所属的表名

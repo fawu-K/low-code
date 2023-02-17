@@ -1,4 +1,4 @@
-package com.kang.database;
+package com.kang.database.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;

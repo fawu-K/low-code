@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.kang.database.DatabaseAutoConfiguration
+  com.kang.database.config.DatabaseAutoConfiguration

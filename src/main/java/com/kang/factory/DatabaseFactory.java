@@ -1,9 +1,11 @@
-package com.kang.database.factory;
+package com.kang.factory;
 
-import com.kang.database.EnableAutoDB;
+import com.kang.EnableAutoDB;
+import com.kang.common.constant.Constants;
+import com.kang.freeMarker.service.FreeMarkerService;
 import com.kang.database.service.DatabaseService;
 import com.kang.database.service.TableService;
-import com.kang.database.util.ClassUtil;
+import com.kang.common.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -24,21 +26,24 @@ import java.util.Set;
 @Component
 public class DatabaseFactory implements CommandLineRunner {
 
-    public final static String PACKAGE_NAME = "com.kang";
+
     private final ApplicationContext applicationContext;
 
     private final TableService tableService;
 
     private final DatabaseService databaseService;
 
-    public DatabaseFactory(ApplicationContext applicationContext, TableService tableService, DatabaseService databaseService) {
+    private final FreeMarkerService freeMarkerService;
+
+    public DatabaseFactory(ApplicationContext applicationContext, TableService tableService, DatabaseService databaseService, FreeMarkerService freeMarkerService) {
         this.applicationContext = applicationContext;
         this.tableService = tableService;
         this.databaseService = databaseService;
+        this.freeMarkerService = freeMarkerService;
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws Exception {
 
         String[] beans = applicationContext.getBeanDefinitionNames();
         Class<?> mainClazz = null;
@@ -60,7 +65,7 @@ public class DatabaseFactory implements CommandLineRunner {
             // 实体类生成数据表
             if (enableAutoDB.entityToTable()) {
                 // 该框架下的所有类
-                Set<Class<?>> aClass = ClassUtil.getClassSet(PACKAGE_NAME);
+                Set<Class<?>> aClass = ClassUtil.getClassSet(Constants.PACKAGE_NAME);
                 // 用户的所有类
                 aClass.addAll(getClass(mainClazz));
 
@@ -69,7 +74,13 @@ public class DatabaseFactory implements CommandLineRunner {
             }
             // 数据表转实体类
             if (enableAutoDB.tableToEntity()) {
-                // TODO: 数据表转实体类操作，可能还会有生成mapper、service等操作
+                // 数据表转实体类操作，可能还会有生成mapper、service等操作
+                //默认保存路径
+                String path = mainClazz.getResource("").getPath();
+                path = path.replace("target/classes","src/main/java");
+                log.debug("代码生成文件所在路径：{}", path);
+                //生成文件
+                freeMarkerService.createEntity(path, mainClazz.getPackage().getName());
             }
         }
 

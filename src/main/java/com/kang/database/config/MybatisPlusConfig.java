@@ -1,4 +1,4 @@
-package com.kang.database;
+package com.kang.database.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;

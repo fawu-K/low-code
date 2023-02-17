@@ -1,5 +1,6 @@
 package com.kang.database.entity;
 
+import com.kang.common.util.CommonsUtils;
 import lombok.Data;
 
 /**
@@ -39,6 +40,11 @@ public class Column {
     private String dataType;
 
     /**
+     * 字段类型加字段长度
+     */
+    private String columnType;
+
+    /**
      * 字段最大长度
      * CHARACTER_MAXIMUM_LENGTH
      */
@@ -66,4 +72,31 @@ public class Column {
      * COLUMN_COMMENT
      */
     private String columnComment;
+
+    /**
+     * 实体类中的字段名
+     */
+    private String entityColumnName;
+
+    /**
+     * 实体类中的字段类型
+     */
+    private String entityColumnType;
+
+    /**
+     * 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）
+     */
+    private String queryType;
+
+
+
+    public boolean isSuperColumn() {
+        return isSuperColumn(this.columnName);
+    }
+
+    public static boolean isSuperColumn(String javaField) {
+        return CommonsUtils.strContains(javaField,
+                // BaseEntity
+                "ID", "CREATOR", "UPDATOR", "CREATED", "UPDATED", "DEL_FLAG");
+    }
 }

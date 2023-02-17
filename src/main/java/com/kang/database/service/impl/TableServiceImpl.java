@@ -5,8 +5,8 @@ import com.kang.database.annotation.Id;
 import com.kang.database.annotation.NotTable;
 import com.kang.database.annotation.Table;
 import com.kang.database.service.TableService;
-import com.kang.database.util.ClassUtil;
-import com.kang.database.util.CommonsUtils;
+import com.kang.common.util.ClassUtil;
+import com.kang.common.util.CommonsUtils;
 import com.kang.database.vo.FaTableVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,8 +39,7 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public FaTableVo entityToVo(String tableName, Class<?> clazz) {
-        FaTableVo faTableVo = new FaTableVo();
-        faTableVo.setName(tableName);
+        FaTableVo faTableVo = FaTableVo.builder().tableName(tableName).build();
 
         // 获取所有字段
         List<Field> fields = ClassUtil.getAllFields(clazz);
@@ -62,5 +61,23 @@ public class TableServiceImpl implements TableService {
         faTableVo.setFields(faFields);
 
         return faTableVo;
+    }
+
+    @Override
+    public List<String> entityToTable(List<Class<?>> classes) {
+        List<String> tableNames = new ArrayList<>();
+        for (Class<?> clazz : classes) {
+            tableNames.add(entityToTable(clazz));
+        }
+        return tableNames;
+    }
+
+    @Override
+    public String entityToTable(Class<?> clazz) {
+        Table annotation = clazz.getAnnotation(Table.class);
+        if (annotation != null) {
+            return annotation.name().equals("")? CommonsUtils.humpToLine(clazz.getSimpleName()): annotation.name();
+        }
+        return null;
     }
 }

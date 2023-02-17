@@ -32,4 +32,7 @@ public class BaseEntity implements Serializable {
     @Field(fieldType = FieldType.TIMESTAMP, length = 0, comment = "修改时间")
     private ZonedDateTime updated;
 
+    @Field(fieldType = FieldType.INT, length = 1, comment = "是否删除：1未删除，0删除")
+    private Integer delFlag;
+
 }

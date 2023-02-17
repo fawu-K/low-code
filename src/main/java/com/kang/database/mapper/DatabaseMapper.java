@@ -1,11 +1,13 @@
 package com.kang.database.mapper;
 
 import com.kang.database.entity.Column;
+import com.kang.database.entity.FaTable;
 import com.kang.database.vo.FaTableVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author K.faWu
@@ -31,4 +33,6 @@ public interface DatabaseMapper {
      * @return 所有字段
      */
     List<Column> getTableFields(String tableName);
+
+    List<FaTable> getTables();
 }

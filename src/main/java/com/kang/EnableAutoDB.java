@@ -1,5 +1,6 @@
-package com.kang.database;
+package com.kang;
 
+import com.kang.database.config.DatabaseRegistrar;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

@@ -4,22 +4,28 @@
 
     <select id="isTable" resultType="java.lang.Integer">
         SELECT
-            count( * )
+            COUNT( * )
         FROM
             INFORMATION_SCHEMA.TABLES
         WHERE
-            table_schema = (SELECT DATABASE())
-          AND table_name = #{tableName}
-          AND table_type = 'BASE TABLE';
+            TABLE_SCHEMA = (SELECT DATABASE())
+          AND TABLE_NAME = #{tableName}
+          AND TABLE_TYPE = 'BASE TABLE';
 
     </select>
     <select id="getTableFields" resultType="com.kang.database.entity.Column">
-        select
+        SELECT
             *
-        from INFORMATION_SCHEMA.COLUMNS
+        FROM INFORMATION_SCHEMA.COLUMNS
         where
             TABLE_SCHEMA = (SELECT DATABASE())
-          and TABLE_NAME = #{tableName}
+          AND TABLE_NAME = #{tableName}
+    </select>
+    <select id="getTables" resultType="com.kang.database.entity.FaTable">
+        SELECT
+            *
+        FROM INFORMATION_SCHEMA.TABLES
+        WHERE TABLE_SCHEMA = (SELECT DATABASE())
     </select>
 
     <insert id="newTable" parameterType="com.kang.database.vo.FaTableVo">
@@ -27,8 +33,8 @@
             <foreach collection="tableVo.fields" item="field" open="(" separator=","
                      close=")">
             ${field.fieldName} ${field.fieldType}(${field.length})
-            <if test="!field.isNull"> not null</if>
-                <if test="field.isMajorKey"> primary key</if>
+            <if test="!field.isNull"> NOT NULL</if>
+                <if test="field.isMajorKey"> PRIMARY KEYT</if>
                 COMMENT #{field.comment}
             </foreach>
     </insert>
