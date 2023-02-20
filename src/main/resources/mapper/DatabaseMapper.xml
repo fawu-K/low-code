@@ -29,12 +29,12 @@
     </select>
 
     <insert id="newTable" parameterType="com.kang.database.vo.FaTableVo">
-        CREATE TABLE ${tableVo.name}
+        CREATE TABLE ${tableVo.tableName}
             <foreach collection="tableVo.fields" item="field" open="(" separator=","
                      close=")">
             ${field.fieldName} ${field.fieldType}(${field.length})
             <if test="!field.isNull"> NOT NULL</if>
-                <if test="field.isMajorKey"> PRIMARY KEYT</if>
+                <if test="field.isMajorKey"> PRIMARY KEY</if>
                 COMMENT #{field.comment}
             </foreach>
     </insert>
