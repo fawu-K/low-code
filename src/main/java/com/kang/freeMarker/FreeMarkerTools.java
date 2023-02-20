@@ -177,7 +177,7 @@ public class FreeMarkerTools {
         // 第二步：设置模板文件所在的路径
 
         //获取templates的路径
-        String targetUrl = saveUrl.substring(0, saveUrl.indexOf("src/main/java")) + "target/classes/templates/";
+        String targetUrl = saveUrl.substring(0, saveUrl.indexOf("src/main/")) + "target/classes/templates/";
         File file = FileUtils.getFile(targetUrl, templateName);
 
         String file1 = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();

@@ -58,6 +58,8 @@ public class FreeMarkerService {
         freeMarkerTools.generate(table, "entity.ftl" , saveUrl + "entity", entityName + ".java");
         // 生成dao
         freeMarkerTools.generate(table,"mapper.ftl",saveUrl + "mapper",entityName+"Mapper.java");
+        //生成xml
+        freeMarkerTools.generate(table,"mapper.xml.ftl",saveUrl.substring(0, saveUrl.indexOf("java/")) + "resources/mappers",entityName+"Mapper.xml");
         //生成service
         freeMarkerTools.generate(table,"service.ftl",saveUrl + "service",entityName+"Service.java");
         //生成serviceImpl
