@@ -31,4 +31,11 @@ public @interface EnableAutoDB {
      * @return false 不开启
      */
     boolean tableToEntity() default false;
+
+    /**
+     * 生成的代码保存路径
+     * 该路径应为模块路径，不包含entity、serivce等路径
+     * @return
+     */
+    String classPath() default "";
 }

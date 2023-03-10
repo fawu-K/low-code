@@ -2,10 +2,10 @@ package com.kang.factory;
 
 import com.kang.EnableAutoDB;
 import com.kang.common.constant.Constants;
-import com.kang.freeMarker.service.FreeMarkerService;
+import com.kang.common.util.ClassUtil;
 import com.kang.database.service.DatabaseService;
 import com.kang.database.service.TableService;
-import com.kang.common.util.ClassUtil;
+import com.kang.freeMarker.service.FreeMarkerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +26,7 @@ import java.util.Set;
 @Component
 public class DatabaseFactory implements CommandLineRunner {
 
+    public static String mainClassPath;
 
     private final ApplicationContext applicationContext;
 
@@ -60,8 +61,10 @@ public class DatabaseFactory implements CommandLineRunner {
                 }
             }
         }
+
         //表示数据库自动操作已经开启
         if (enableAutoDB != null) {
+
             // 实体类生成数据表
             if (enableAutoDB.entityToTable()) {
                 // 该框架下的所有类
@@ -72,12 +75,13 @@ public class DatabaseFactory implements CommandLineRunner {
                 List<Class<?>> tables = tableService.classIsBaseEntity(aClass);
                 databaseService.saveTable(tables);
             }
+
             // 数据表转实体类
             if (enableAutoDB.tableToEntity()) {
-                // 数据表转实体类操作，可能还会有生成mapper、service等操作
+                // 数据表转实体类操作
                 //默认保存路径
                 String path = mainClazz.getResource("").getPath();
-                path = path.replace("target/classes","src/main/java");
+                path = path.replace(Constants.TARGET_CLASSES, Constants.SRC_MAIN_JAVA_PATH);
                 log.debug("代码生成文件所在路径：{}", path);
                 //生成文件
                 freeMarkerService.createEntity(path, mainClazz.getPackage().getName());
@@ -94,9 +98,9 @@ public class DatabaseFactory implements CommandLineRunner {
      * @return 需要加载的包中的所哟类
      */
     private static Set<Class<?>> getClass(Class<?> clazz) {
-        String packageName = clazz.getPackage().getName();
+        mainClassPath = clazz.getPackage().getName();
 
-        return ClassUtil.getClassSet(packageName);
+        return ClassUtil.getClassSet(mainClassPath);
     }
 
 }

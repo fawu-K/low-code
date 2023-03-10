@@ -1,10 +1,12 @@
 package com.kang.freeMarker;
 
+import com.kang.common.constant.Constants;
 import com.kang.common.constant.FtlConstants;
 import com.kang.common.util.CommonsUtils;
 import com.kang.database.entity.Column;
 import com.kang.database.mapper.DatabaseMapper;
 import com.kang.database.vo.FaTableVo;
+import com.kang.freeMarker.config.FreeMarkerConfig;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -169,24 +171,26 @@ public class FreeMarkerTools {
      * 生成代码
      */
     public void generate(FaTableVo table, String templateName, String saveUrl, String entityName) throws Exception {
-        log.debug("文件-[{}/{}]开始生成...", saveUrl, entityName, templateName);
+        log.debug("生成文件-[{}/{}]", saveUrl, entityName);
 
         // 第一步：创建一个Configuration对象，直接new一个对象。构造方法的参数就是FreeMarker对于的版本号
-        Configuration freeMarker = new Configuration();
+        Configuration freeMarker = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 
         // 第二步：设置模板文件所在的路径
 
         //获取templates的路径
-        String targetUrl = saveUrl.substring(0, saveUrl.indexOf("src/main/")) + "target/classes/templates/";
-        File file = FileUtils.getFile(targetUrl, templateName);
+        String templateUrl = getTemplateUrl(saveUrl);
 
-        String file1 = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-        URL url = new URL("jar:file:" + file1 + "!/templates/" + templateName);
-        InputStream in = url.openStream();
+        //判断用户是否有模板
+        if (!new File(templateUrl + templateName).isFile()) {
+            File file = FileUtils.getFile(templateUrl, templateName);
+            String file1 = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+            URL url = new URL("jar:file:" + file1 + "!/templates/" + templateName);
+            InputStream in = url.openStream();
+            FileUtils.copyInputStreamToFile(in, file);
+        }
 
-        FileUtils.copyInputStreamToFile(in, file);
-
-        FileTemplateLoader fileTemplateLoader = new FileTemplateLoader(new File(targetUrl));
+        FileTemplateLoader fileTemplateLoader = new FileTemplateLoader(new File(templateUrl));
         freeMarker.setTemplateLoader(fileTemplateLoader);
 
         // 第三步：设置模板文件使用的字符集。一般就是utf-8
@@ -196,8 +200,6 @@ public class FreeMarkerTools {
         Template template = freeMarker.getTemplate(templateName);
         //输出文件
         printFile(table, template, saveUrl, entityName);
-
-        log.debug("文件-[{}/{}]生成完毕！", saveUrl, entityName);
     }
 
     /**
@@ -218,6 +220,10 @@ public class FreeMarkerTools {
             }
         }
         table.setImportClassList(importList);
+    }
+
+    private String getTemplateUrl(String saveUrl) {
+        return saveUrl.substring(0, saveUrl.indexOf(Constants.SRC_MAIN_PATH)) + Constants.TARGET_CLASSES + FreeMarkerConfig.getTemplatePath();
     }
 
 }

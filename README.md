@@ -17,3 +17,22 @@
 代码包：com.kang.freeMarker
 
 使用方式：[@EnableAutoDB](src/main/java/com/kang/EnableAutoDB.java)注解增加```tableToEntity = true```参数，开启自动根据数据表生成实体类、Dao层、service层以及controller层
+
+### 自定义模板
+关于自定义模板，当框架中的默认模板无法满足开发者的需求或开发者需要个性化配置，则开发者可以使用自定义的模板。但当模板放在非默认的文件夹下时需要开发者在配置文件中表明模板包路径。 当然，该模板包需要在resources包下。
+
+我们可以看到[FreeMarkerConfig](src/main/java/com/kang/freeMarker/config/FreeMarkerConfig.java)中对于模板包默认的路径为```templates/```，当你需要放在非默认包下放置模板时请按照以下格式配置：
+```yml
+kang:
+  low-code:
+    template-path: test/templates/
+```
+模板的名称言简意赅，如下所示：
+```text
+controller.ftl
+entity.ftl
+mapper.ftl
+mapper.xml.ftl
+service.ftl
+serviceImpl.ftl
+```
