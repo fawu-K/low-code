@@ -36,3 +36,10 @@ mapper.xml.ftl
 service.ftl
 serviceImpl.ftl
 ```
+
+### 自定义数据表视图类
+当进行个性化生成模板的时候，我们会发现框架中默认的数据表视图类[TableVo](src/main/java/com/kang/database/vo/TableVo.java)中的字段不太够用了。
+
+此为，特地设置了[TableVoFactory](src/main/java/com/kang/factory/TableVoFactory.java)工厂类，只需要构建一个继承[TableVo](src/main/java/com/kang/database/vo/TableVo.java)的类即可在使用自定义模板时使用更多的字段。
+需要注意的是在[TableVoFactory](src/main/java/com/kang/freeMarker/FreeMarkerTools.java)的```getDataInfo```方法，即**获取表信息的方法**中使用的是```TableVoFactory.build()```方法来生成TableVo的对象，因此当有多个```TableVo```的实现类时只会根据加载顺序启动最后一种。
+

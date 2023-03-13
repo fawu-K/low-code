@@ -6,7 +6,7 @@
 
     <groupId>io.github.fawu-k</groupId>
     <artifactId>kang-lowCode-spring-boot</artifactId>
-    <version>1.0-SNAPSHOP</version>
+    <version>1.0.1-SNAPSHOP</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -51,6 +51,13 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.7</version>
+        </dependency>
+
+        <!--反射框架Reflections-->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.10</version>
         </dependency>
 
     </dependencies>

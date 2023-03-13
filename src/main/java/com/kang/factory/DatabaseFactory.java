@@ -79,6 +79,10 @@ public class DatabaseFactory implements CommandLineRunner {
             // 数据表转实体类
             if (enableAutoDB.tableToEntity()) {
                 // 数据表转实体类操作
+
+                //只有当启动数据表转实体类的功能时才对数据表视图工厂进行创建
+                TableVoFactory.init(mainClassPath);
+
                 //默认保存路径
                 String path = mainClazz.getResource("").getPath();
                 path = path.replace(Constants.TARGET_CLASSES, Constants.SRC_MAIN_JAVA_PATH);

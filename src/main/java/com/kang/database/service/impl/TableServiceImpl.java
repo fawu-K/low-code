@@ -39,7 +39,8 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public FaTableVo entityToVo(String tableName, Class<?> clazz) {
-        FaTableVo faTableVo = FaTableVo.builder().tableName(tableName).build();
+        FaTableVo faTableVo = new FaTableVo();
+        faTableVo.setTableName(tableName);
 
         // 获取所有字段
         List<Field> fields = ClassUtil.getAllFields(clazz);

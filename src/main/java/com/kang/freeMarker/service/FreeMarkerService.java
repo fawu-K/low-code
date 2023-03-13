@@ -6,7 +6,7 @@ import com.kang.common.util.CommonsUtils;
 import com.kang.database.entity.FaTable;
 import com.kang.database.mapper.DatabaseMapper;
 import com.kang.database.service.TableService;
-import com.kang.database.vo.FaTableVo;
+import com.kang.database.vo.TableVo;
 import com.kang.freeMarker.FreeMarkerTools;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +50,7 @@ public class FreeMarkerService {
 
         // 第五步：创建一个模板使用的数据集，可以是pojo也可以是map。一般是Map
         //封装参数
-        FaTableVo table = freeMarkerTools.getDataInfo(tableName, packageName);
+        TableVo table = freeMarkerTools.getDataInfo(tableName, packageName);
 
         // 生成实体类
         freeMarkerTools.generate(table, "entity.ftl",

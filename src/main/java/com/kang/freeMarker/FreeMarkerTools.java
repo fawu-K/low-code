@@ -5,7 +5,8 @@ import com.kang.common.constant.FtlConstants;
 import com.kang.common.util.CommonsUtils;
 import com.kang.database.entity.Column;
 import com.kang.database.mapper.DatabaseMapper;
-import com.kang.database.vo.FaTableVo;
+import com.kang.database.vo.TableVo;
+import com.kang.factory.TableVoFactory;
 import com.kang.freeMarker.config.FreeMarkerConfig;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
@@ -14,14 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -45,7 +44,7 @@ public class FreeMarkerTools {
     /**
      * 输出到文件
      */
-    public  void printFile(FaTableVo table, Template template, String filePath, String fileName) throws Exception  {
+    public  void printFile(TableVo table, Template template, String filePath, String fileName) throws Exception  {
         pathJudgeExist(filePath);
         File file = new File(filePath, fileName);
         if(!file.exists()) {
@@ -97,16 +96,15 @@ public class FreeMarkerTools {
     /**
      * 获取表信息
      */
-    public FaTableVo getDataInfo(String tableName, String packageName){
+    public TableVo getDataInfo(String tableName, String packageName){
         String entityName = getEntityName(tableName);
 
-        FaTableVo javaBeanGenerate = FaTableVo.builder()
-                .packageName(packageName)
-                .className(entityName)
-                .columns(getColumn(tableName))
-                .build();
-        getImportList(javaBeanGenerate);
-        return javaBeanGenerate;
+        TableVo tableVo = TableVoFactory.build();
+        tableVo.setPackageName(packageName);
+        tableVo.setClassName(entityName);
+        tableVo.setColumns(getColumn(tableName));
+        getImportList(tableVo);
+        return tableVo;
     }
 
     /**
@@ -170,7 +168,7 @@ public class FreeMarkerTools {
     /**
      * 生成代码
      */
-    public void generate(FaTableVo table, String templateName, String saveUrl, String entityName) throws Exception {
+    public void generate(TableVo table, String templateName, String saveUrl, String entityName) throws Exception {
         log.debug("生成文件-[{}/{}]", saveUrl, entityName);
 
         // 第一步：创建一个Configuration对象，直接new一个对象。构造方法的参数就是FreeMarker对于的版本号
@@ -208,7 +206,7 @@ public class FreeMarkerTools {
      * @param table 业务表对象
      * @return 返回需要导入的包列表
      */
-    public static void getImportList(FaTableVo table) {
+    public static void getImportList(TableVo table) {
         List<Column> columns = table.getColumns();
         List<String> importList = new ArrayList<>();
         for (Column column : columns) {

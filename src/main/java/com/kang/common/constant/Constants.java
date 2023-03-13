@@ -14,6 +14,16 @@ public class Constants {
     public final static String PACKAGE_NAME = "com.kang";
 
     /**
+     * 启动类名称系统存储key
+     */
+    public final static String START_CLASS_NAME = "startAppClassName";
+
+    /**
+     * 启动类包名系统存储key
+     */
+    public final static String START_CLASS_PACKAGE = "startClassPackage";
+
+    /**
      * idea生成的maven项目的class文件所在包
      */
     public final static String TARGET_CLASSES = "target/classes/";
