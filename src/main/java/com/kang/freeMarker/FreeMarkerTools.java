@@ -183,8 +183,8 @@ public class FreeMarkerTools {
         //判断用户是否有模板
         if (!new File(templateUrl + templateName).isFile()) {
             File file = FileUtils.getFile(templateUrl, templateName);
-            String file1 = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
-            URL url = new URL("jar:file:" + file1 + "!/templates/" + templateName);
+            String jarName = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+            URL url = new URL("jar:file:" + jarName + "!/templates/" + templateName);
             InputStream in = url.openStream();
             FileUtils.copyInputStreamToFile(in, file);
         }

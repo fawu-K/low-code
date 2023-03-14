@@ -92,7 +92,6 @@ public class DatabaseFactory implements CommandLineRunner {
                 //默认保存路径
                 String path = mainClazz.getResource("").getPath();
                 path = path.replace(Constants.TARGET_CLASSES, Constants.SRC_MAIN_JAVA_PATH);
-                log.debug("代码生成文件所在路径：{}", path);
                 //生成文件
                 freeMarkerService.createEntity(path, mainClazz.getPackage().getName());
             }
