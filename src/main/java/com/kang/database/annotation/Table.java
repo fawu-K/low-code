@@ -18,7 +18,7 @@ public @interface Table {
 
     /**
      * 指定表名，若不指定则使用实体类名作为数据表名
-     * @return
+     * @return 表名
      */
     String name() default "";
 }

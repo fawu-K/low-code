@@ -20,6 +20,9 @@ import java.io.Serializable;
 @Table
 public class FaTable extends BaseEntity implements Serializable {
 
+    /**
+     * 表名
+     */
     @Field(length = 64, comment = "表名")
     private String tableName;
 

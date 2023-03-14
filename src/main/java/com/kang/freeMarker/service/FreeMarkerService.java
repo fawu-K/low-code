@@ -78,7 +78,6 @@ public class FreeMarkerService {
      *
      * @param saveUrl     代码要保存的位置
      * @param packageName 包名
-     * @throws Exception
      */
     public void createEntity(String saveUrl, String packageName) throws Exception {
         // 该框架下的所有实体类

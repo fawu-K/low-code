@@ -3,6 +3,7 @@ package com.kang.database.vo;
 import com.kang.database.annotation.Type;
 import com.kang.database.entity.FaField;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;
@@ -21,5 +22,8 @@ public class FaTableVo extends TableVo implements Serializable {
         return Type.SYSTEM;
     }
 
+    /**
+     * 字段信息列表
+     */
     private List<FaField> fields;
 }

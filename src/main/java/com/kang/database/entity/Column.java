@@ -89,11 +89,16 @@ public class Column {
     private String queryType;
 
 
-
+    /**
+     * 判断是否属于基础字段
+     */
     public boolean isSuperColumn() {
         return isSuperColumn(this.columnName);
     }
 
+    /**
+     * 判断是否属于基础字段
+     */
     public static boolean isSuperColumn(String javaField) {
         return CommonsUtils.strContains(javaField,
                 // BaseEntity

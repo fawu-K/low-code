@@ -32,28 +32,22 @@ public interface DatabaseService {
 
     /**
      * 对表进行生成
-     * @param tables
      */
     void saveTable(List<Class<?>> tables);
 
     /**
      * 对表格的字段进行更新操作。
      * 注意：一般情况下字段长度不应改小，因之前已经存在的数据有可能会超出长度
-     * @param faTableVo
-     * @return
      */
     boolean updateTableField(FaTableVo faTableVo);
 
     /**
      * 判断表格中的字段是否和实体类中的字段一致
-     * @param faTableVo
-     * @return
      */
     boolean isTableToEntityField(FaTableVo faTableVo);
 
     /**
      * 获取数据表的所有实体类化信息
-     * @return
      */
     List<FaTableVo> getEntityToTable();
 

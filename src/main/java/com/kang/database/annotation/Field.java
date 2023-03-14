@@ -17,43 +17,42 @@ import java.lang.annotation.*;
 public @interface Field {
     /**
      * 字段名称，不填写则以实体类的属性名为字段名
-     * @return
+     * return
      */
     String name() default "";
 
     /**
      * 表示字段类型
-     * @default: {@code Type.VARCHAR}
+     * default: {@code Type.VARCHAR}
      */
     FieldType fieldType() default FieldType.VARCHAR;
 
     /**
      * 字段的长度
-     * @default: 255
+     * default: 255
      */
     int length() default 255;
 
     /**
      * 数字类型使用，小数点后位数，
-     * @default: 0
+     * default: 0
      */
     int decimal() default 0;
 
     /**
      * 是否为空
-     * @default: true
+     * default: true
      */
     boolean isNull() default true;
 
     /**
      * 是否为主键
-     * @default: false
+     * default: false
      */
     boolean isMajorKey() default false;
 
     /**
      * 注释
-     * @default: ""
      */
     String comment() default "";
 }

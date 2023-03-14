@@ -25,6 +25,9 @@ public interface DatabaseMapper {
      */
     int isTable(String tableName);
 
+    /**
+     * 新建表
+     */
     void newTable(@Param("tableVo") FaTableVo tableVo);
 
     /**
@@ -34,5 +37,8 @@ public interface DatabaseMapper {
      */
     List<Column> getTableFields(String tableName);
 
+    /**
+     * 获取所有表信息
+     */
     List<FaTable> getTables();
 }

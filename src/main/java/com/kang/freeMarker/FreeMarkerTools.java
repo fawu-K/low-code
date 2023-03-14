@@ -25,6 +25,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+/**
+ * 工具类
+ */
 @Slf4j
 @Component
 public class FreeMarkerTools {
@@ -62,8 +65,6 @@ public class FreeMarkerTools {
     /**
      * 通过表名获取实体类名
      * 即输入的为带下划线的表名，输出为首字母大写，且驼峰的实体类名称
-     * @param tableName
-     * @return
      */
     public static String getEntityName(String tableName){
         return CommonsUtils.topCharBig(getEntityNameLower(tableName.toLowerCase()));
@@ -150,11 +151,11 @@ public class FreeMarkerTools {
             // 如果是浮点型 统一用BigDecimal
             String substring = column.getColumnType().substring(column.getColumnType().indexOf("(") + 1, column.getColumnType().indexOf(")"));
             String[] str = substring.split(",");
-            if (str != null && str.length == 2 && Integer.parseInt(str[1]) > 0) {
+            if (str.length == 2 && Integer.parseInt(str[1]) > 0) {
                 column.setEntityColumnType(FtlConstants.TYPE_BIGDECIMAL);
             }
             // 如果是整形
-            else if (str != null && str.length == 1 && Integer.parseInt(str[0]) <= 10) {
+            else if (str.length == 1 && Integer.parseInt(str[0]) <= 10) {
                 column.setEntityColumnType(FtlConstants.TYPE_INTEGER);
             }
             // 长整形
@@ -204,7 +205,6 @@ public class FreeMarkerTools {
      * 根据列类型获取导入包
      *
      * @param table 业务表对象
-     * @return 返回需要导入的包列表
      */
     public static void getImportList(TableVo table) {
         List<Column> columns = table.getColumns();

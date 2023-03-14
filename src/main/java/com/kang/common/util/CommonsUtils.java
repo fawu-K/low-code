@@ -8,10 +8,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @program: service
- * @description:
- * @author: K.faWu
- * @create: 2022-06-10 14:18
+ * 常见工具方法
+ *
+ * @author qawzf
  **/
 
 public class CommonsUtils {
@@ -45,13 +44,18 @@ public class CommonsUtils {
         return !isEmpty(obj);
     }
 
+    /**
+     * 正则计算
+     */
     private static Pattern linePattern = Pattern.compile("_(\\w)");
+
+    /**
+     * 正则计算
+     */
     private static Pattern humpPattern = Pattern.compile("[A-Z]");
 
     /**
      * 驼峰转下划线（首字母大写不转下划线
-     * @param str
-     * @return
      */
     public static String humpToLine(String str) {
         str = topCharSmall(str);
@@ -66,8 +70,6 @@ public class CommonsUtils {
 
     /**
      * 下划线转驼峰,正常输出
-     * @param str
-     * @return
      */
     public static String lineToHump(String str) {
         Matcher matcher = linePattern.matcher(str);
@@ -81,8 +83,6 @@ public class CommonsUtils {
 
     /**
      * 首字母小写
-     * @param str
-     * @return
      */
     public static String topCharSmall(String str){
         //如果字符串str为null和""则返回原数据
@@ -119,8 +119,6 @@ public class CommonsUtils {
     /**
      * 通过表名获取实体类名
      * 即输入的为带下划线的表名，输出为首字母大写，且驼峰的实体类名称
-     * @param str
-     * @return
      */
     public static String getEntityName(String str) {
         return lineToHump(topCharBig(str));

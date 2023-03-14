@@ -26,6 +26,11 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
 
     private TableService tableService;
 
+    /**
+     * 构建方法初始化参数
+     * @param dbMapper
+     * @param tableService
+     */
     public MySqlDatabaseServiceImpl(DatabaseMapper dbMapper, TableService tableService) {
         this.dbMapper = dbMapper;
         this.tableService = tableService;

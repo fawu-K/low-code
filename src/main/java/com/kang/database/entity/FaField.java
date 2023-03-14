@@ -66,8 +66,14 @@ public class FaField extends BaseEntity implements Serializable {
     @Field(comment = "备注")
     private String comment;
 
+    /**
+     * 构造方法
+     */
     public FaField(){}
 
+    /**
+     * 构造方法
+     */
     public FaField(String tableName, String fieldName, Field field) {
         this.tableName = tableName;
         if ("".equals(field.name())) {

@@ -25,6 +25,10 @@ public class TableVoFactory {
     private static List<Class<? extends TableVo>> tableVoList = new ArrayList<>();
     private static Map<Type, List<Class<? extends TableVo>>> tableVoMaps = new HashMap<>();
 
+    /**
+     * 初始化方法
+     * @param mainClassPath 启动类路径
+     */
     public static void init(String mainClassPath) throws IllegalAccessException, InstantiationException {
         //获取该路径下所有类
         Reflections reflections = new Reflections(Constants.PACKAGE_NAME, mainClassPath);
@@ -42,6 +46,9 @@ public class TableVoFactory {
         }
     }
 
+    /**
+     * 获取长度
+     */
     public static Integer getSize(Type type) {
         List<Class<? extends TableVo>> classes = tableVoMaps.get(type);
         if (classes != null) {
@@ -51,15 +58,26 @@ public class TableVoFactory {
         }
     }
 
+    /**
+     * 获取长度
+     */
     public static Integer getSize() {
         return getSize(Type.CUSTOM);
     }
 
+    /**
+     * 构建数据表视图类
+     * @return 数据表视图类
+     */
     @SneakyThrows
     public static TableVo build(Type type, Integer index) {
         return getSize(type) > 0 && getSize(type) >= index? tableVoMaps.get(type).get(index).newInstance() : null;
     }
 
+    /**
+     * 构建数据表视图类
+     * @return 数据表视图类
+     */
     public static TableVo build(Type type){
         return build(type, getSize(type) - 1);
     }
@@ -76,11 +94,19 @@ public class TableVoFactory {
         return iTableVo;
     }
 
+    /**
+     * 构建数据表视图类
+     * @return 数据表视图类
+     */
     @SneakyThrows
     public static TableVo build(Class<? extends TableVo> clazz) {
         return clazz.newInstance();
     }
 
+    /**
+     * 构建数据表视图类
+     * @return 数据表视图类
+     */
     public static TableVo build(String clazzName) {
         return tableVoList.stream().filter(aClass -> aClass.getSimpleName().equals(clazzName)).findFirst().map(TableVoFactory::build).orElse(null);
     }

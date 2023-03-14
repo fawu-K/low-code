@@ -14,11 +14,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * @program: kang-spring
- * @description: 处理类的工具
- * @author: K.faWu
- * @create: 2022-07-28 16:35
- **/
+ * @author qawzf
+ * */
 public class ClassUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClassUtil.class);
     /**
@@ -32,7 +29,6 @@ public class ClassUtil {
      * 加载类
      * @param className 类名
      * @param isInitialized 是否初始化
-     * @return
      */
     public static Class<?> loadClass(String className, boolean isInitialized) {
         Class<?> cls;
@@ -132,6 +128,9 @@ public class ClassUtil {
         classSet.add(cls);
     }
 
+    /**
+     * 打印方法
+     */
     private static void print(String packagePath, String packageName) {
         packageName  = packageName.replaceAll("\\.", "/");
         packagePath = packagePath.replace(packageName, "") + "banner.txt";
@@ -156,7 +155,7 @@ public class ClassUtil {
      */
     public static List<Field> getAllFields(Class<?> clazz) {
         List<Field> fieldList = new ArrayList<>();
-        while (clazz != null && !clazz.getName().toLowerCase().equals("java.lang.object")){
+        while (clazz != null && !"java.lang.object".equals(clazz.getName().toLowerCase())){
             fieldList.addAll(Arrays.asList(clazz.getDeclaredFields()));
             clazz = clazz.getSuperclass();
         }

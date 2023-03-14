@@ -26,6 +26,9 @@ import java.util.Set;
 @Component
 public class DatabaseFactory implements CommandLineRunner {
 
+    /**
+     * 启动方法路径
+     */
     public static String mainClassPath;
 
     private final ApplicationContext applicationContext;
@@ -36,6 +39,9 @@ public class DatabaseFactory implements CommandLineRunner {
 
     private final FreeMarkerService freeMarkerService;
 
+    /**
+     * 构造方法
+     */
     public DatabaseFactory(ApplicationContext applicationContext, TableService tableService, DatabaseService databaseService, FreeMarkerService freeMarkerService) {
         this.applicationContext = applicationContext;
         this.tableService = tableService;

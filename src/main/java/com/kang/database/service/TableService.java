@@ -17,8 +17,8 @@ import java.util.Set;
 public interface TableService {
     /**
      * 从所有类中摘出继承自BaseEntity的类
-     * @param classSet
-     * @return
+     * @param classSet 所有类
+     * @return 继承自BaseEntity的类
      */
     List<Class<?>> classIsBaseEntity(Set<Class<?>> classSet);
 

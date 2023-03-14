@@ -33,6 +33,9 @@ public class FtlConstants {
     public static final String[] COLUMNTYPE_NUMBER = {"tinyint", "smallint", "mediumint", "int", "number", "integer",
             "bit", "bigint", "float", "double", "decimal"};
 
+    /**
+     * =
+     */
     public static final String QUERY_EQ = "EQ";
 
     /**
