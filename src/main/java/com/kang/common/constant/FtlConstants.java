@@ -1,8 +1,5 @@
 package com.kang.common.constant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 代码生成通用常量
  * @author K.faWu
@@ -67,4 +64,9 @@ public class FtlConstants {
      * 时间类型
      */
     public static final String TYPE_DATE = "Date";
+
+    /**
+     * BigDecimal类的包
+     */
+    public static final String BIGDECIMAL_PACKAGE = "java.math.BigDecimal";
 }

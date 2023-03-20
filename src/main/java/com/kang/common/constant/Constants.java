@@ -42,4 +42,57 @@ public class Constants {
      * idea下的maven项目的java文件所在包
      */
     public final static String SRC_MAIN_JAVA_PATH = SRC_MAIN_PATH + "java/";
+
+
+    /**
+     * 等于
+     */
+    public final static String EQ = "eq";
+
+    /**
+     * 不等于
+     */
+    public final static String NE = "ne";
+
+    /**
+     * 大于
+     */
+    public final static String GT = "gt";
+
+    /**
+     * 大于等于
+     */
+    public final static String GE = "ge";
+
+    /**
+     * 小于
+     */
+    public final static String LT = "lt";
+
+    /**
+     * 小于等于
+     */
+    public final static String LE = "le";
+
+    /**
+     * 存在
+     */
+    public final static String LIKE = "like";
+
+    /**
+     * 不存在
+     */
+    public final static String NOT_LIKE = "notLike";
+
+    /**
+     * 字段为空
+     */
+    public final static String IS_NULL = "isNull";
+
+    /**
+     * 字段不为空
+     */
+    public final static String IS_NOT_NULL = "isNotNull";
+
+
 }

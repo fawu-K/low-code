@@ -60,7 +60,7 @@ public class FreeMarkerService {
                 saveUrl + "mapper", entityName + "Mapper.java");
         //生成xml
         freeMarkerTools.generate(table, "mapper.xml.ftl",
-                saveUrl.substring(0, saveUrl.indexOf("java/")) + "resources/mappers", entityName + "Mapper.xml");
+                saveUrl.substring(0, saveUrl.indexOf("java/")) + "resources/mapper", entityName + "Mapper.xml");
         //生成service
         freeMarkerTools.generate(table, "service.ftl",
                 saveUrl + "service", entityName + "Service.java");

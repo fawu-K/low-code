@@ -100,10 +100,12 @@ public class FreeMarkerTools {
     public TableVo getDataInfo(String tableName, String packageName){
         String entityName = getEntityName(tableName);
 
+        //通过工厂构建视图类，若是用户有自定义视图类，则可以使用用户自定义的视图类
         TableVo tableVo = TableVoFactory.build();
         tableVo.setPackageName(packageName);
         tableVo.setClassName(entityName);
         tableVo.setColumns(getColumn(tableName));
+        tableVo.setTableName(tableName);
         getImportList(tableVo);
         return tableVo;
     }
@@ -214,7 +216,7 @@ public class FreeMarkerTools {
                 importList.add("java.util.Date");
                 importList.add("com.fasterxml.jackson.annotation.JsonFormat");
             } else if (!column.isSuperColumn() && FtlConstants.TYPE_BIGDECIMAL.equals(column.getEntityColumnType())) {
-                importList.add("java.math.BigDecimal");
+                importList.add(FtlConstants.BIGDECIMAL_PACKAGE);
             }
         }
         table.setImportClassList(importList);

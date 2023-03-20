@@ -1,10 +1,8 @@
 package com.kang.database.service;
 
-import com.kang.database.entity.BaseEntity;
 import com.kang.database.vo.FaTableVo;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 数据库持久化

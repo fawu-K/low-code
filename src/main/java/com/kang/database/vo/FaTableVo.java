@@ -3,7 +3,6 @@ package com.kang.database.vo;
 import com.kang.database.annotation.Type;
 import com.kang.database.entity.FaField;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
 import java.util.List;

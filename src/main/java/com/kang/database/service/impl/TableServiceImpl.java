@@ -1,12 +1,12 @@
 package com.kang.database.service.impl;
 
-import com.kang.database.entity.FaField;
+import com.kang.common.util.ClassUtil;
+import com.kang.common.util.CommonsUtils;
 import com.kang.database.annotation.Id;
 import com.kang.database.annotation.NotTable;
 import com.kang.database.annotation.Table;
+import com.kang.database.entity.FaField;
 import com.kang.database.service.TableService;
-import com.kang.common.util.ClassUtil;
-import com.kang.common.util.CommonsUtils;
 import com.kang.database.vo.FaTableVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -77,7 +77,7 @@ public class TableServiceImpl implements TableService {
     public String entityToTable(Class<?> clazz) {
         Table annotation = clazz.getAnnotation(Table.class);
         if (annotation != null) {
-            return annotation.name().equals("")? CommonsUtils.humpToLine(clazz.getSimpleName()): annotation.name();
+            return "".equals(annotation.name())? CommonsUtils.humpToLine(clazz.getSimpleName()): annotation.name();
         }
         return null;
     }

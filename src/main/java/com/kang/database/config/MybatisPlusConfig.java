@@ -15,4 +15,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement(order = 2)
 @MapperScan(value = "com.kang.database.mapper")
 public class MybatisPlusConfig {
+    /**
+     * 分页插件。如果你不配置，分页插件将不生效
+     */
+/*    @Bean
+    public MybatisPlusInterceptor paginationInterceptor() {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 指定数据库方言为 MYSQL
+        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
+        return interceptor;
+    }*/
 }

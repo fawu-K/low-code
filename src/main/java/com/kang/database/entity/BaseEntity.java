@@ -49,9 +49,11 @@ public class BaseEntity implements Serializable {
     private ZonedDateTime updated;
 
     /**
-     * 是否删除
+     * 删除时间
+     * 当业务操作删除时，会进行逻辑删除，即给该字段填写值，以表示该条数据被删除
+     * 之所以使用time，当数据量过多时查询sql会变慢，所以可以根据该字段进行定时清理
      */
-    @Field(fieldType = FieldType.INT, length = 1, comment = "是否删除：1未删除，0删除")
-    private Integer delFlag;
+    @Field(length = 20, comment = "是否删除：null未删除，yyyy-MM-dd HH:mm:ss删除")
+    private Integer deleteTime;
 
 }

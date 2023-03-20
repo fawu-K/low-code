@@ -9,7 +9,6 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.Date;
 import com.kang.database.entity.BaseEntity;
-
 @Data
 public class ${className} extends BaseEntity implements Serializable {
 

@@ -1,8 +1,8 @@
 package com.kang.factory;
 
 import com.kang.common.constant.Constants;
-import com.kang.database.vo.TableVo;
 import com.kang.database.annotation.Type;
+import com.kang.database.vo.TableVo;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
@@ -22,8 +22,8 @@ import java.util.*;
 @Service
 public class TableVoFactory {
 
-    private static List<Class<? extends TableVo>> tableVoList = new ArrayList<>();
-    private static Map<Type, List<Class<? extends TableVo>>> tableVoMaps = new HashMap<>();
+    private static final List<Class<? extends TableVo>> TABLE_VO_LIST = new ArrayList<>();
+    private static final Map<Type, List<Class<? extends TableVo>>> TABLE_VO_MAPS = new HashMap<>();
 
     /**
      * 初始化方法
@@ -32,25 +32,23 @@ public class TableVoFactory {
     public static void init(String mainClassPath) throws IllegalAccessException, InstantiationException {
         //获取该路径下所有类
         Reflections reflections = new Reflections(Constants.PACKAGE_NAME, mainClassPath);
-        //获取继承了IAnimal的所有类
+        //获取继承了TableVo的所有类
         Set<Class<? extends TableVo>> classSet = reflections.getSubTypesOf(TableVo.class);
-        tableVoList.addAll(classSet);
+        TABLE_VO_LIST.addAll(classSet);
 
-        log.debug("对视图进行区分：{}", tableVoList);
-
-        for (Class<? extends TableVo> clazz : tableVoList){
+        for (Class<? extends TableVo> clazz : TABLE_VO_LIST){
             TableVo obj = clazz.newInstance();
-            List<Class<? extends TableVo>> list = tableVoMaps.containsKey(obj.getType())? tableVoMaps.get(obj.getType()) : new ArrayList<>();
+            List<Class<? extends TableVo>> list = TABLE_VO_MAPS.containsKey(obj.getType())? TABLE_VO_MAPS.get(obj.getType()) : new ArrayList<>();
             list.add(clazz);
-            tableVoMaps.put(obj.getType(), list);
+            TABLE_VO_MAPS.put(obj.getType(), list);
         }
     }
 
     /**
-     * 获取长度
+     * 获取指定类型的tableVo类的数量
      */
-    public static Integer getSize(Type type) {
-        List<Class<? extends TableVo>> classes = tableVoMaps.get(type);
+    public static Integer getVoSize(Type type) {
+        List<Class<? extends TableVo>> classes = TABLE_VO_MAPS.get(type);
         if (classes != null) {
             return classes.size();
         } else {
@@ -59,10 +57,10 @@ public class TableVoFactory {
     }
 
     /**
-     * 获取长度
+     * 获取自定义的tableVo类的数量
      */
-    public static Integer getSize() {
-        return getSize(Type.CUSTOM);
+    public static Integer getCustomSize() {
+        return getVoSize(Type.CUSTOM);
     }
 
     /**
@@ -71,19 +69,21 @@ public class TableVoFactory {
      */
     @SneakyThrows
     public static TableVo build(Type type, Integer index) {
-        return getSize(type) > 0 && getSize(type) >= index? tableVoMaps.get(type).get(index).newInstance() : null;
+        return getVoSize(type) > 0 && getVoSize(type) >= index? TABLE_VO_MAPS.get(type).get(index).newInstance() : null;
     }
 
     /**
      * 构建数据表视图类
+     * 根据参数来选择构建的视图类
      * @return 数据表视图类
      */
     public static TableVo build(Type type){
-        return build(type, getSize(type) - 1);
+        return build(type, getVoSize(type) - 1);
     }
 
     /**
      * 构建数据表视图类
+     * 在使用该方式获取视图类的时候，会优先构建用户自定义的视图类
      * @return 数据表视图类
      */
     public static TableVo build(){
@@ -108,7 +108,7 @@ public class TableVoFactory {
      * @return 数据表视图类
      */
     public static TableVo build(String clazzName) {
-        return tableVoList.stream().filter(aClass -> aClass.getSimpleName().equals(clazzName)).findFirst().map(TableVoFactory::build).orElse(null);
+        return TABLE_VO_LIST.stream().filter(aClass -> aClass.getSimpleName().equals(clazzName)).findFirst().map(TableVoFactory::build).orElse(null);
     }
 
 }
