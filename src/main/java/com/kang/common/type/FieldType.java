@@ -1,7 +1,10 @@
-package com.kang.database.annotation;
+package com.kang.common.type;
+
+import com.kang.database.annotation.Field;
 
 /**
  * {@link Field}的value值使用枚举
+ *
  * @author qawzf
  */
 

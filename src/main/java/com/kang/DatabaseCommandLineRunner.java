@@ -1,10 +1,10 @@
-package com.kang.factory;
+package com.kang;
 
-import com.kang.EnableAutoDB;
 import com.kang.common.constant.Constants;
 import com.kang.common.util.ClassUtil;
 import com.kang.database.service.DatabaseService;
 import com.kang.database.service.TableService;
+import com.kang.factory.FactoryBuilder;
 import com.kang.freeMarker.service.FreeMarkerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -24,25 +24,21 @@ import java.util.Set;
  **/
 @Slf4j
 @Component
-public class DatabaseFactory implements CommandLineRunner {
+public class DatabaseCommandLineRunner implements CommandLineRunner {
 
     /**
      * 启动方法路径
      */
     public static String mainClassPath;
-
     private final ApplicationContext applicationContext;
-
     private final TableService tableService;
-
     private final DatabaseService databaseService;
-
     private final FreeMarkerService freeMarkerService;
 
     /**
      * 构造方法
      */
-    public DatabaseFactory(ApplicationContext applicationContext, TableService tableService, DatabaseService databaseService, FreeMarkerService freeMarkerService) {
+    public DatabaseCommandLineRunner(ApplicationContext applicationContext, TableService tableService, DatabaseService databaseService, FreeMarkerService freeMarkerService) {
         this.applicationContext = applicationContext;
         this.tableService = tableService;
         this.databaseService = databaseService;
@@ -87,7 +83,7 @@ public class DatabaseFactory implements CommandLineRunner {
                 // 数据表转实体类操作
 
                 //只有当启动数据表转实体类的功能时才对数据表视图工厂进行创建
-                TableVoFactory.init(mainClassPath);
+                FactoryBuilder.initAllFactory(mainClassPath);
 
                 //默认保存路径
                 String path = mainClazz.getResource("").getPath();
@@ -108,7 +104,6 @@ public class DatabaseFactory implements CommandLineRunner {
      */
     private static Set<Class<?>> getClass(Class<?> clazz) {
         mainClassPath = clazz.getPackage().getName();
-
         return ClassUtil.getClassSet(mainClassPath);
     }
 

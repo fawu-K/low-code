@@ -1,8 +1,8 @@
 package com.kang.database.mapper;
 
+import com.kang.common.vo.impl.FaTableVo;
 import com.kang.database.entity.Column;
 import com.kang.database.entity.FaTable;
-import com.kang.database.vo.FaTableVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

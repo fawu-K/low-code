@@ -21,21 +21,22 @@ public class ${className}Controller {
     @Autowired
     private ${className}Service ${className?uncap_first}Service;
 
-    /**
-     * 查询接口，使用POST请求方式，分页通过url进行传值。
-     * 查询条件以json的形式进行接收，以{@link AdvancedQueryDto}类作为查询条件的模板，
-     * 其中{@link AdvancedQueryDto#getOperation()}的值是该字段在引入{@link QueryWrapper}时调用的方法
-     * 可支持的方法名可在{@link WrapperUtil#queryByDto(QueryWrapper, AdvancedQueryDto)}中看到，后续有可能更新。
-     *
-     * @param dtoList 查询条件
-     * @param pageNum 页码
-     * @param pageSize 行数
-     * @return 查询结果
-     */
-    @PostMapping("query")
-    public ResponseEntity<?> query(@RequestParam Integer pageNum, @RequestParam Integer pageSize,
-    @RequestBody List<AdvancedQueryDto> dtoList) {
-        PageInfo<${className}> pageInfo = ${className?uncap_first}Service.query(dtoList, pageNum, pageSize);
+/**
+* 查询接口，使用POST请求方式，分页通过url进行传值。
+* 查询条件以json的形式进行接收，以{@link AdvancedQueryDto}类作为查询条件的模板，
+* 其中{@link AdvancedQueryDto#getOperation()}的值是该字段在引入{@link QueryWrapper}时调用的方法
+* 可支持的方法名可在{@link WrapperUtil#queryByDto(QueryWrapper, AdvancedQueryDto)}中看到，后续有可能更新。
+*
+* @param dtoList 查询条件
+* @param pageNum 页码
+* @param pageSize 页数
+* @return 查询结果
+*/
+@PostMapping("query")
+public ResponseEntity<?> query(@RequestParam Integer pageNum, @RequestParam Integer pageSize,
+@RequestBody List
+<AdvancedQueryDto> dtoList) {
+    PageInfo<${className}> pageInfo = ${className?uncap_first}Service.query(dtoList, pageNum, pageSize);
         return ResponseEntity.ok().body(pageInfo);
     }
 

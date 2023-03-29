@@ -20,6 +20,15 @@ import java.util.List;
 @Slf4j
 public class WrapperUtil {
 
+    /**
+     * 该方法通过{@link AdvancedQueryDto#getOperation()}的值当作{@link QueryWrapper}类的方法名，来实现sql的拼接。
+     * 注意：在该方法中默认设置了查询delete_time字段为空的操作，所以在使用该方法时需要注意要查询的数据表中存在delete_time字段
+     *
+     * @param wrapper QueryWrapper
+     * @param dtoList 查询参数
+     * @param <T>     要查询的实体类
+     * @return QueryWrapper
+     */
     public static <T> QueryWrapper<T> queryByDto(QueryWrapper<T> wrapper, List<AdvancedQueryDto> dtoList) {
         if (CommonsUtils.isNotEmpty(dtoList)) {
             for (AdvancedQueryDto dto : dtoList) {
@@ -30,6 +39,14 @@ public class WrapperUtil {
         return wrapper;
     }
 
+    /**
+     * 该方法通过{@link AdvancedQueryDto#getOperation()}的值当作{@link QueryWrapper}类的方法名，来实现sql的拼接。
+     *
+     * @param wrapper QueryWrapper
+     * @param dto     查询参数
+     * @param <T>     要查询的实体类
+     * @return QueryWrapper
+     */
     public static <T> QueryWrapper<T> queryByDto(QueryWrapper<T> wrapper, AdvancedQueryDto dto) {
         String field = dto.getField();
         String operation = dto.getOperation();
@@ -42,51 +59,6 @@ public class WrapperUtil {
         } catch (NoSuchMethodException | IllegalAccessException e) {
             throw new WrapperException(String.format("[%s]该查询方式不存在！", operation));
         }
-
-        /*switch (operation) {
-            case Constants.EQ:
-                //等于
-                wrapper.eq(CommonsUtils.humpToLine(field), value);
-                break;
-            case Constants.NE:
-                //不等于
-                wrapper.ne(CommonsUtils.humpToLine(field), value);
-                break;
-            case Constants.GT:
-                //大于
-                wrapper.gt(CommonsUtils.humpToLine(field), value);
-                break;
-            case Constants.GE:
-                //大于等于
-                wrapper.ge(CommonsUtils.humpToLine(field), value);
-                break;
-            case Constants.LT:
-                wrapper.lt(CommonsUtils.humpToLine(field), value);
-                //小于
-                break;
-            case Constants.LE:
-                wrapper.le(CommonsUtils.humpToLine(field), value);
-                //小于等于
-                break;
-            case Constants.LIKE:
-                wrapper.like(CommonsUtils.humpToLine(field), value);
-                //存在
-                break;
-            case Constants.NOT_LIKE:
-                wrapper.notLike(CommonsUtils.humpToLine(field), value);
-                //不存在
-                break;
-            case Constants.IS_NULL:
-                //字段为空
-                wrapper.isNull(CommonsUtils.humpToLine(field));
-                break;
-            case Constants.IS_NOT_NULL:
-                //字段不为空
-                wrapper.isNotNull(CommonsUtils.humpToLine(field));
-                break;
-            default:
-        }*/
         return wrapper;
     }
-
 }

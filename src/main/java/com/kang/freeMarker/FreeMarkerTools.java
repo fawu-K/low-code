@@ -3,43 +3,36 @@ package com.kang.freeMarker;
 import com.kang.common.constant.Constants;
 import com.kang.common.constant.FtlConstants;
 import com.kang.common.util.CommonsUtils;
+import com.kang.common.vo.ITableVo;
 import com.kang.database.entity.Column;
-import com.kang.database.mapper.DatabaseMapper;
-import com.kang.database.vo.TableVo;
-import com.kang.factory.TableVoFactory;
 import com.kang.freeMarker.config.FreeMarkerConfig;
 import freemarker.cache.FileTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * 工具类
+ *
+ * @author fawu.K
  */
 @Slf4j
-@Component
 public class FreeMarkerTools {
-    @Autowired
-    DatabaseMapper databaseMapper;
 
     /**
      * 判断包路径是否存在
      */
-    private void pathJudgeExist(String path){
+    private static void pathJudgeExist(String path) {
         File file = new File(path);
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.mkdirs();
         }
     }
@@ -47,35 +40,22 @@ public class FreeMarkerTools {
     /**
      * 输出到文件
      */
-    public  void printFile(TableVo table, Template template, String filePath, String fileName) throws Exception  {
+    public static void printFile(ITableVo iTableVo, Template template, String filePath, String fileName) throws Exception {
         pathJudgeExist(filePath);
         File file = new File(filePath, fileName);
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.createNewFile();
         }
-        // 第六步：创建一个Writer对象，一般创建一FileWriter对象，指定生成的文件名
-        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
-        // 第七步：调用模板对象的process方法输出文件
+        /* 创建一个Writer对象，一般创建一FileWriter对象，指定生成的文件名 */
+        Writer out = new BufferedWriter(new OutputStreamWriter(Files.newOutputStream(file.toPath()), StandardCharsets.UTF_8));
+        // 调用模板对象的process方法输出文件
         // root参数是模板使用的数据集，out参数是生成的文件
-        template.process(table,  out);
-        // 第八步：关闭流
+        template.process(iTableVo, out);
+        // 关闭流
         out.close();
     }
 
-    /**
-     * 通过表名获取实体类名
-     * 即输入的为带下划线的表名，输出为首字母大写，且驼峰的实体类名称
-     */
-    public static String getEntityName(String tableName){
-        return CommonsUtils.topCharBig(getEntityNameLower(tableName.toLowerCase()));
-    }
 
-    /**
-     * 获取首字母小写符合驼峰写法的名称
-     */
-    public static String getEntityNameLower(String name){
-        return CommonsUtils.lineToHump(name.toLowerCase());
-    }
 
     /**
      * 匹配字符串中的英文字符
@@ -85,9 +65,8 @@ public class FreeMarkerTools {
         Pattern pattern = Pattern.compile(regEx2);
         StringBuilder sb = new StringBuilder();
         Matcher m = pattern.matcher(str);
-        while (m.find()){
-            for (int i = 0; i <= m.groupCount(); i++)
-            {
+        while (m.find()) {
+            for (int i = 0; i <= m.groupCount(); i++) {
                 sb.append(m.group());
             }
         }
@@ -95,37 +74,10 @@ public class FreeMarkerTools {
     }
 
     /**
-     * 获取表信息
-     */
-    public TableVo getDataInfo(String tableName, String packageName){
-        String entityName = getEntityName(tableName);
-
-        //通过工厂构建视图类，若是用户有自定义视图类，则可以使用用户自定义的视图类
-        TableVo tableVo = TableVoFactory.build();
-        tableVo.setPackageName(packageName);
-        tableVo.setClassName(entityName);
-        tableVo.setColumns(getColumn(tableName));
-        tableVo.setTableName(tableName);
-        getImportList(tableVo);
-        return tableVo;
-    }
-
-    /**
-     * 获取该实体类中的所有字段且不包含父类的类
-     * @param tableName 表名
-     * @return 列属性
-     */
-    public List<Column> getColumn(String tableName) {
-        List<Column> columns = databaseMapper.getTableFields(tableName);
-        columns = columns.stream().filter(FreeMarkerTools::initNotSuperColumns).collect(Collectors.toList());
-        return columns;
-    }
-
-    /**
      * 初始化列属性字段
      * 并判断该列是否属于父类
      */
-    private static boolean initNotSuperColumns(Column column) {
+    public static boolean initNotSuperColumns(Column column) {
         if (!column.isSuperColumn()) {
             initColumnField(column);
             return true;
@@ -135,11 +87,13 @@ public class FreeMarkerTools {
 
     /**
      * 初始化列属性字段
+     * 需要在这里完成字段的数据库类型到java类型的转换。
+     * 一般情况下，用到的java类型可以分为三种，字符、数字、时间。
      */
     public static void initColumnField(Column column) {
         String dataType = column.getDataType();
         //设置实体类的字段名
-        column.setEntityColumnName(getEntityNameLower(column.getColumnName()));
+        column.setEntityColumnName(CommonsUtils.getEntityNameLower(column.getColumnName()));
         //设置实体类的默认类型
         column.setEntityColumnType(FtlConstants.TYPE_STRING);
         column.setQueryType(FtlConstants.QUERY_EQ);
@@ -165,19 +119,18 @@ public class FreeMarkerTools {
                 column.setEntityColumnType(FtlConstants.TYPE_LONG);
             }
         }
-
     }
 
     /**
      * 生成代码
      */
-    public void generate(TableVo table, String templateName, String saveUrl, String entityName) throws Exception {
+    public static void generate(ITableVo iTableVo, String templateName, String saveUrl, String entityName) throws Exception {
         log.debug("生成文件-[{}/{}]", saveUrl, entityName);
 
-        // 第一步：创建一个Configuration对象，直接new一个对象。构造方法的参数就是FreeMarker对于的版本号
+        /* 创建一个Configuration对象，直接new一个对象。构造方法的参数就是FreeMarker对于的版本号 */
         Configuration freeMarker = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 
-        // 第二步：设置模板文件所在的路径
+        /* 设置模板文件所在的路径 */
 
         //获取templates的路径
         String templateUrl = getTemplateUrl(saveUrl);
@@ -185,45 +138,33 @@ public class FreeMarkerTools {
         //判断用户是否有模板
         if (!new File(templateUrl + templateName).isFile()) {
             File file = FileUtils.getFile(templateUrl, templateName);
-            String jarName = this.getClass().getProtectionDomain().getCodeSource().getLocation().getFile();
+            String jarName = FreeMarkerTools.class.getProtectionDomain().getCodeSource().getLocation().getFile();
             URL url = new URL("jar:file:" + jarName + "!/templates/" + templateName);
             InputStream in = url.openStream();
             FileUtils.copyInputStreamToFile(in, file);
         }
-
         FileTemplateLoader fileTemplateLoader = new FileTemplateLoader(new File(templateUrl));
         freeMarker.setTemplateLoader(fileTemplateLoader);
 
-        // 第三步：设置模板文件使用的字符集。一般就是utf-8
+        /* 设置模板文件使用的字符集。一般就是utf-8 */
         freeMarker.setDefaultEncoding("utf-8");
 
-        // 第四步：加载一个模板，创建一个模板对象
+        /* 加载一个模板，创建一个模板对象 */
         Template template = freeMarker.getTemplate(templateName);
         //输出文件
-        printFile(table, template, saveUrl, entityName);
+        printFile(iTableVo, template, saveUrl, entityName);
     }
 
     /**
-     * 根据列类型获取导入包
+     * 模板路径的获取，这里用了极其糟糕的生成方式，通过字符串的拼接替换，我甚至无法保证他在其他人电脑是是否能够正常运行
+     * 不过同样需要注意的是在该方法中会去获取自定义的模板路径{@link FreeMarkerConfig#getTemplatePath()}
      *
-     * @param table 业务表对象
+     * @param saveUrl 路径
+     * @return 模板路径
      */
-    public static void getImportList(TableVo table) {
-        List<Column> columns = table.getColumns();
-        List<String> importList = new ArrayList<>();
-        for (Column column : columns) {
-            if (!column.isSuperColumn() && FtlConstants.TYPE_DATE.equals(column.getEntityColumnType())) {
-                importList.add("java.util.Date");
-                importList.add("com.fasterxml.jackson.annotation.JsonFormat");
-            } else if (!column.isSuperColumn() && FtlConstants.TYPE_BIGDECIMAL.equals(column.getEntityColumnType())) {
-                importList.add(FtlConstants.BIGDECIMAL_PACKAGE);
-            }
-        }
-        table.setImportClassList(importList);
-    }
-
-    private String getTemplateUrl(String saveUrl) {
+    private static String getTemplateUrl(String saveUrl) {
         return saveUrl.substring(0, saveUrl.indexOf(Constants.SRC_MAIN_PATH)) + Constants.TARGET_CLASSES + FreeMarkerConfig.getTemplatePath();
     }
+
 
 }

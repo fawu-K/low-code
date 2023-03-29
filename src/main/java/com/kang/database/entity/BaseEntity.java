@@ -1,7 +1,7 @@
 package com.kang.database.entity;
 
+import com.kang.common.type.FieldType;
 import com.kang.database.annotation.Field;
-import com.kang.database.annotation.FieldType;
 import com.kang.database.annotation.Id;
 import lombok.Data;
 
@@ -54,6 +54,6 @@ public class BaseEntity implements Serializable {
      * 之所以使用time，当数据量过多时查询sql会变慢，所以可以根据该字段进行定时清理
      */
     @Field(length = 20, comment = "是否删除：null未删除，yyyy-MM-dd HH:mm:ss删除")
-    private Integer deleteTime;
+    private String deleteTime;
 
 }

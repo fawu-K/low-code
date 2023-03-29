@@ -1,4 +1,4 @@
-package com.kang.database.annotation;
+package com.kang.common.type;
 
 /**
  * 表示表视图实现类属于本框架还是用户自定义

@@ -2,12 +2,12 @@ package com.kang.database.service.impl;
 
 import com.kang.common.util.ClassUtil;
 import com.kang.common.util.CommonsUtils;
+import com.kang.common.vo.impl.FaTableVo;
 import com.kang.database.annotation.Id;
 import com.kang.database.annotation.NotTable;
 import com.kang.database.annotation.Table;
 import com.kang.database.entity.FaField;
 import com.kang.database.service.TableService;
-import com.kang.database.vo.FaTableVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

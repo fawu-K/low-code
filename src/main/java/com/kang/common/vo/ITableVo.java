@@ -1,29 +1,21 @@
-package com.kang.database.vo;
+package com.kang.common.vo;
 
-import com.kang.database.annotation.Type;
+import com.kang.common.type.ClassType;
 import com.kang.database.entity.Column;
 import lombok.Data;
 
 import java.util.List;
 
 /**
- * 表视图的接口类
+ * 数据表的接口类
  *
  * @author K.faWu
  * @program low-code
- * @date 2023-03-13 09:36
+ * @date 2023-03-29 14:37
  **/
 
 @Data
-public class TableVo {
-
-    /**
-     * 当用户在实现该接口的时候，表示为用户自定义的class
-     * @return
-     */
-    public Type getType() {
-        return Type.CUSTOM;
-    }
+public abstract class ITableVo implements ClassType {
 
     private String tableName;
 
@@ -61,4 +53,5 @@ public class TableVo {
      * 需要导入的包
      */
     private List<String> importClassList;
+
 }

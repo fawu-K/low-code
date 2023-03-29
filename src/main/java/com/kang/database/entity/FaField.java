@@ -1,7 +1,7 @@
 package com.kang.database.entity;
 
+import com.kang.common.type.FieldType;
 import com.kang.database.annotation.Field;
-import com.kang.database.annotation.FieldType;
 import com.kang.database.annotation.Table;
 import lombok.Data;
 

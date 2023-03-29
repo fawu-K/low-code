@@ -1,5 +1,7 @@
 package com.kang.database.annotation;
 
+import com.kang.common.type.FieldType;
+
 import java.lang.annotation.*;
 
 /**

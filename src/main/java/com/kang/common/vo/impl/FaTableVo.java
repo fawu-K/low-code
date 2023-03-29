@@ -1,6 +1,7 @@
-package com.kang.database.vo;
+package com.kang.common.vo.impl;
 
-import com.kang.database.annotation.Type;
+import com.kang.common.type.Type;
+import com.kang.common.vo.ITableVo;
 import com.kang.database.entity.FaField;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ import java.util.List;
  **/
 
 @Data
-public class FaTableVo extends TableVo implements Serializable {
+public final class FaTableVo extends ITableVo implements Serializable {
 
     @Override
     public Type getType() {

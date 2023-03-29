@@ -100,8 +100,8 @@ public class Column {
      * 判断是否属于基础字段
      */
     public static boolean isSuperColumn(String javaField) {
-        return CommonsUtils.strContains(javaField,
+        return CommonsUtils.strContainsIgnoreCase(javaField,
                 // BaseEntity
-                "ID", "CREATOR", "UPDATOR", "CREATED", "UPDATED", "DEL_FLAG");
+                "ID", "CREATOR", "UPDATOR", "CREATED", "UPDATED", "deleteTime");
     }
 }

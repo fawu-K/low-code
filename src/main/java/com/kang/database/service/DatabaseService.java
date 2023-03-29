@@ -1,6 +1,6 @@
 package com.kang.database.service;
 
-import com.kang.database.vo.FaTableVo;
+import com.kang.common.vo.impl.FaTableVo;
 
 import java.util.List;
 

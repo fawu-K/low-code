@@ -91,7 +91,7 @@ public class CommonsUtils {
         }
 
         if(str.length()==1){
-            //如果字符串str的长度为1，则调用专门把字符串转换为小写的string方法tuUpperCase()
+            //如果字符串str的长度为1，则调用专门把字符串转换为小写的string方法toLowerCase()
             return str.toLowerCase() ;
         }
         //用字符串截取方法subString()截取第一个字符并调用toUpperCase()方法把它转换为小写字母
@@ -125,12 +125,30 @@ public class CommonsUtils {
     }
 
     /**
+     * 获取首字母小写符合驼峰写法的名称
+     */
+    public static String getEntityNameLower(String str) {
+        return lineToHump(toLowerCase(str));
+    }
+
+    /**
+     * 全部字母小写
+     *
+     * @param str
+     * @return
+     */
+    public static String toLowerCase(String str) {
+        return str.toLowerCase();
+    }
+
+    /**
      * 校验数组是否包含指定值
+     *
      * @param targetValue 值
-     * @param args 多个数组
+     * @param args        多个数组
      * @return 是否包含
      */
-    public static boolean strContains(String targetValue, String[] ...args) {
+    public static boolean strContains(String targetValue, String[]... args) {
         List<String> list = new ArrayList<>();
         for (String[] arg : args) {
             list.addAll(Arrays.asList(arg));
@@ -139,12 +157,29 @@ public class CommonsUtils {
     }
 
     /**
-     * 校验数组是否包含指定值
+     * 校验数组是否包含指定值，忽略大小写
+     *
      * @param targetValue 值
-     * @param args 数组
+     * @param args        数组
      * @return 是否包含
      */
-    public static boolean strContains(String targetValue, String ...args) {
+    public static boolean strContainsIgnoreCase(String targetValue, String... args) {
+        targetValue = targetValue.toUpperCase();
+        List<String> list = new ArrayList<>();
+        for (String arg : args) {
+            list.add(arg.toUpperCase());
+        }
+        return strContains(targetValue, list);
+    }
+
+    /**
+     * 校验数组是否包含指定值
+     *
+     * @param targetValue 值
+     * @param args        数组
+     * @return 是否包含
+     */
+    public static boolean strContains(String targetValue, String... args) {
         return strContains(targetValue, Arrays.asList(args));
     }
 
