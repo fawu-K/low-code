@@ -56,7 +56,7 @@ public class Main {
 #### query接口
 
 ```java
-    /**
+/**
  * 查询接口，使用POST请求方式，分页通过url进行传值。
  * 查询条件以json的形式进行接收，以{@link AdvancedQueryDto}类作为查询条件的模板，
  * 其中{@link AdvancedQueryDto#getOperation()}的值是该字段在引入{@link QueryWrapper}时调用的方法
@@ -79,7 +79,7 @@ public class Main {
 
 ### 自定义模板
 
-version：1.0.1之后增加
+> version：1.0.1之后增加
 
 关于自定义模板，当框架中的默认模板无法满足开发者的需求或开发者需要个性化配置，则开发者可以使用自定义的模板。但当模板放在非默认的文件夹下时需要开发者在配置文件中表明模板包路径。
 当然，该模板包需要在resources包下。

@@ -42,7 +42,7 @@ public class FreeMarkerService {
     public void createEntity(String tableName, String saveUrl, String packageName) throws Exception {
         //bean类名
         String entityName = CommonsUtils.getEntityName(tableName);
-        //防止热加载多次重启
+        //防止多次重生成代码
         if (applicationContext.containsBean(CommonsUtils.topCharSmall(entityName + "Mapper"))) {
             return;
         }

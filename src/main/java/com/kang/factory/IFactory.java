@@ -1,7 +1,7 @@
 package com.kang.factory;
 
 /**
- * 构建工厂类
+ * 工厂类
  *
  * @author K.faWu
  * @program low-code
@@ -11,5 +11,11 @@ package com.kang.factory;
 
 public interface IFactory {
 
-    void init(String mainClassPath) throws Exception;
+    /**
+     * 对工厂中的static属性进行初始化操作，
+     *
+     * @param mainClassPackage 启动类所在路径
+     * @throws Exception 初始化static属性可能出现的异常
+     */
+    void init(String mainClassPackage) throws Exception;
 }

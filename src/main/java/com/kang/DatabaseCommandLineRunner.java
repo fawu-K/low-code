@@ -29,7 +29,7 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
     /**
      * 启动方法路径
      */
-    public static String mainClassPath;
+    public static String mainClassPackage;
     private final ApplicationContext applicationContext;
     private final TableService tableService;
     private final DatabaseService databaseService;
@@ -83,7 +83,7 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
                 // 数据表转实体类操作
 
                 //只有当启动数据表转实体类的功能时才对数据表视图工厂进行创建
-                FactoryBuilder.initAllFactory(mainClassPath);
+                FactoryBuilder.initAllFactory(mainClassPackage);
 
                 //默认保存路径
                 String path = mainClazz.getResource("").getPath();
@@ -92,8 +92,6 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
                 freeMarkerService.createEntity(path, mainClazz.getPackage().getName());
             }
         }
-
-
     }
 
     /**
@@ -103,8 +101,7 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
      * @return 需要加载的包中的所哟类
      */
     private static Set<Class<?>> getClass(Class<?> clazz) {
-        mainClassPath = clazz.getPackage().getName();
-        return ClassUtil.getClassSet(mainClassPath);
+        mainClassPackage = clazz.getPackage().getName();
+        return ClassUtil.getClassSet(mainClassPackage);
     }
-
 }
