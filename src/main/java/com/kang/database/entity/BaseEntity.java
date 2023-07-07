@@ -1,5 +1,7 @@
 package com.kang.database.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.kang.common.type.FieldType;
 import com.kang.database.annotation.Field;
 import com.kang.database.annotation.Id;
@@ -27,24 +29,28 @@ public class BaseEntity implements Serializable {
     /**
      * 创建者
      */
+    @TableField(fill = FieldFill.INSERT)
     @Field(length = 20, comment = "创建者")
     private String creator;
 
     /**
      * 修改者
      */
+    @TableField(fill = FieldFill.UPDATE)
     @Field(length = 20, comment = "修改者")
     private String updator;
 
     /**
      * 创建时间
      */
+    @TableField(fill = FieldFill.INSERT)
     @Field(fieldType = FieldType.TIMESTAMP, length = 0, comment = "创建时间")
     private ZonedDateTime created;
 
     /**
      * 修改时间
      */
+    @TableField(fill = FieldFill.UPDATE)
     @Field(fieldType = FieldType.TIMESTAMP, length = 0, comment = "修改时间")
     private ZonedDateTime updated;
 

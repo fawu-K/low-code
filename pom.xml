@@ -6,7 +6,7 @@
 
     <groupId>io.github.fawu-k</groupId>
     <artifactId>kang-lowCode-spring-boot</artifactId>
-    <version>0.1.1-SNAPSHOP</version>
+    <version>0.1.1-DEV</version>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

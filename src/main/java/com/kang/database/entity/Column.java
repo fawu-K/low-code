@@ -102,6 +102,6 @@ public class Column {
     public static boolean isSuperColumn(String javaField) {
         return CommonsUtils.strContainsIgnoreCase(javaField,
                 // BaseEntity
-                "ID", "CREATOR", "UPDATOR", "CREATED", "UPDATED", "deleteTime");
+                "ID", "CREATOR", "UPDATOR", "CREATED", "UPDATED", "DELETE_TIME");
     }
 }

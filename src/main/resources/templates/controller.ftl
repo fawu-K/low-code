@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author K.faWu
- **/
+* @author K.faWu
+**/
 @RestController
 @RequestMapping("/${className?uncap_first}")
 public class ${className}Controller {
-    @Autowired
-    private ${className}Service ${className?uncap_first}Service;
+@Autowired
+private ${className}Service ${className?uncap_first}Service;
 
 /**
 * 查询接口，使用POST请求方式，分页通过url进行传值。
@@ -37,7 +37,7 @@ public ResponseEntity<?> query(@RequestParam Integer pageNum, @RequestParam Inte
 @RequestBody List
 <AdvancedQueryDto> dtoList) {
     PageInfo<${className}> pageInfo = ${className?uncap_first}Service.query(dtoList, pageNum, pageSize);
-        return ResponseEntity.ok().body(pageInfo);
+    return ResponseEntity.ok().body(pageInfo);
     }
 
     /**
