@@ -42,7 +42,7 @@ public class ACTableService {
 
         // entityPackage可能会分号分割多个，需要处理
         String entityPackage = autoCreateTableConfig.getEntityPackage();
-        if (entityPackage != null || !entityPackage.isEmpty()) {
+        if (entityPackage != null && !entityPackage.isEmpty()) {
             String[] entityPackages = entityPackage.split("[;；]");
             String[] packagePatterns = parsePackagePatterns(entityPackages);
             // 获取指定包下的所有类
@@ -50,7 +50,7 @@ public class ACTableService {
         }
 
         // 获取启动类所在包下所有所有带有@TableName注解的类，以及框架内所有带有@TableName注解的类
-        String[] entityPackages = new String[]{entityPackage, Constants.ENTITY_PACKAGE_NAME};
+        String[] entityPackages = new String[]{mainPackage, Constants.ENTITY_PACKAGE_NAME};
         String[] packagePatterns = parsePackagePatterns(entityPackages);
         Set<Class<?>> tables = PackageScanner.scanClassesWithAnnotation(TableName.class, packagePatterns);
         classes.addAll(tables);

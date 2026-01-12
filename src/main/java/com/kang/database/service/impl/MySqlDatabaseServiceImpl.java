@@ -56,6 +56,9 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
 
     @Override
     public void saveTable(List<Class<?>> tables) {
+
+        // TODO:获取当前数据库中所有的表
+
         for (Class<?> clazz : tables) {
 
             String tableName = CommonsUtils.humpToLine(clazz.getSimpleName());
