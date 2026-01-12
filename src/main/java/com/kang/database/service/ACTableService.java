@@ -3,12 +3,14 @@ package com.kang.database.service;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.kang.common.constant.Constants;
 import com.kang.common.util.PackageScanner;
+import com.kang.database.config.AutoCreateTableConfig;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -28,23 +30,30 @@ public class ACTableService {
     @Resource
     private DatabaseService databaseService;
 
+    @Resource
+    private AutoCreateTableConfig autoCreateTableConfig;
+
     @Async
-    public void saveTable(String entityPackage) {
+    public void saveTable(String mainPackage) {
         // TODO: 实现通过实体类建表的动作
         log.debug("开始实现通过实体类建表的动作");
 
-        if (entityPackage != null) {
-            entityPackage += ";" + Constants.PACKAGE_NAME;
-        } else {
-            entityPackage = Constants.PACKAGE_NAME;
-        }
+        Set<Class<?>> classes = new HashSet<>();
 
         // entityPackage可能会分号分割多个，需要处理
-        String[] entityPackages = entityPackage.split("[;；]");
-        String[] packagePatterns = parsePackagePatterns(entityPackages);
+        String entityPackage = autoCreateTableConfig.getEntityPackage();
+        if (entityPackage != null || !entityPackage.isEmpty()) {
+            String[] entityPackages = entityPackage.split("[;；]");
+            String[] packagePatterns = parsePackagePatterns(entityPackages);
+            // 获取指定包下的所有类
+            classes = PackageScanner.scanPackages(packagePatterns);
+        }
 
-        // 使用PackageScanner扫描
-        Set<Class<?>> classes = PackageScanner.scanClassesWithAnnotation(TableName.class, packagePatterns);
+        // 获取启动类所在包下所有所有带有@TableName注解的类，以及框架内所有带有@TableName注解的类
+        String[] entityPackages = new String[]{entityPackage, Constants.ENTITY_PACKAGE_NAME};
+        String[] packagePatterns = parsePackagePatterns(entityPackages);
+        Set<Class<?>> tables = PackageScanner.scanClassesWithAnnotation(TableName.class, packagePatterns);
+        classes.addAll(tables);
 
         databaseService.saveTable(new ArrayList<>(classes));
     }

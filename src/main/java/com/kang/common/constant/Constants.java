@@ -13,6 +13,8 @@ public class Constants {
      */
     public final static String PACKAGE_NAME = "com.kang";
 
+    public final static String ENTITY_PACKAGE_NAME = "com.kang.**.entity";
+
     /**
      * 启动类名称系统存储key
      */

@@ -70,13 +70,9 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
             if (enableAutoDB.entityToTable()) {
                 log.debug("开始执行实体类生成数据表功能");
                 // 使用默认包名，或从配置中获取
-                String entityPackage = autoCreateTableConfig.getEntityPackage();
-                if (entityPackage == null || entityPackage.isEmpty()) {
-                    // 如果配置文件没有配置实体类包，则使用启动类所在的包
-                    entityPackage = mainClazz.getPackage().getName();
-                }
-                log.debug("实体类包：{}", entityPackage);
-                acTableService.saveTable(entityPackage);
+                String mainPackage = mainClazz.getPackage().getName();
+                log.debug("EnableAutoDB注解所在包：{}", mainPackage);
+                acTableService.saveTable(mainPackage);
             }
 
             // 数据表转实体类
