@@ -2,8 +2,7 @@ package com.kang;
 
 import com.kang.common.constant.Constants;
 import com.kang.common.util.ClassUtil;
-import com.kang.database.service.DatabaseService;
-import com.kang.database.service.TableService;
+import com.kang.database.service.ACTableService;
 import com.kang.factory.FactoryBuilder;
 import com.kang.freeMarker.service.FreeMarkerService;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,18 +29,16 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
      */
     public static String mainClassPackage;
     private final ApplicationContext applicationContext;
-    private final TableService tableService;
-    private final DatabaseService databaseService;
     private final FreeMarkerService freeMarkerService;
+    private final ACTableService acTableService;
 
     /**
      * 构造方法
      */
-    public DatabaseCommandLineRunner(ApplicationContext applicationContext, TableService tableService, DatabaseService databaseService, FreeMarkerService freeMarkerService) {
+    public DatabaseCommandLineRunner(ApplicationContext applicationContext, FreeMarkerService freeMarkerService, ACTableService acTableService) {
         this.applicationContext = applicationContext;
-        this.tableService = tableService;
-        this.databaseService = databaseService;
         this.freeMarkerService = freeMarkerService;
+        this.acTableService = acTableService;
     }
 
     @Override
@@ -69,18 +65,21 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
 
             // 实体类生成数据表
             if (enableAutoDB.entityToTable()) {
-                // 该框架下的所有类
-                Set<Class<?>> aClass = ClassUtil.getClassSet(Constants.PACKAGE_NAME);
-                // 用户的所有类
-                aClass.addAll(getClass(mainClazz));
-
-                List<Class<?>> tables = tableService.classIsBaseEntity(aClass);
-                databaseService.saveTable(tables);
+                log.debug("开始执行实体类生成数据表功能");
+                // 使用默认包名，或从配置中获取
+                String entityPackage = applicationContext.getEnvironment()
+                        .getProperty("fawu.table.auto-create.entity-package");
+                if (entityPackage == null || entityPackage.isEmpty()) {
+                    // 如果配置文件没有配置实体类包，则使用启动类所在的包
+                    entityPackage = mainClazz.getPackage().getName();
+                }
+                log.debug("实体类包：{}", entityPackage);
+                acTableService.saveTable(entityPackage);
             }
 
             // 数据表转实体类
             if (enableAutoDB.tableToEntity()) {
-                // 数据表转实体类操作
+                // 异步执行 数据表转实体类操作
 
                 //只有当启动数据表转实体类的功能时才对数据表视图工厂进行创建
                 FactoryBuilder.initAllFactory(mainClassPackage);

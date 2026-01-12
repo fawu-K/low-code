@@ -18,7 +18,7 @@ import java.time.ZonedDateTime;
  **/
 @Configuration
 @EnableTransactionManagement(order = 2)
-@MapperScan(value = "com.kang.database.mapper")
+@MapperScan(value = "com.kang.**.mapper")
 public class MybatisPlusConfig {
     /**
      * 分页插件。如果你不配置，分页插件将不生效

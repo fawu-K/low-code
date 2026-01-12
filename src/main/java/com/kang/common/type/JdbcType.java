@@ -1,14 +1,14 @@
 package com.kang.common.type;
 
-import com.kang.database.annotation.Field;
+import com.kang.database.annotation.ACTableField;
 
 /**
- * {@link Field}的value值使用枚举
+ * {@link ACTableField}的value值使用枚举
  *
  * @author qawzf
  */
 
-public enum FieldType {
+public enum JdbcType {
     /**
      * 字符串类型
      */

@@ -1,6 +1,8 @@
 package com.kang.database.annotation;
 
-import com.kang.common.type.FieldType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import org.apache.ibatis.type.JdbcType;
+import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
@@ -16,18 +18,21 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface Field {
+@TableField
+public @interface ACTableField {
     /**
      * 字段名称，不填写则以实体类的属性名为字段名
      * return
      */
-    String name() default "";
+    @AliasFor(annotation = TableField.class, attribute = "value")
+    String value() default "";
 
     /**
      * 表示字段类型
      * default: {@code Type.VARCHAR}
      */
-    FieldType fieldType() default FieldType.VARCHAR;
+    @AliasFor(annotation = TableField.class, attribute = "jdbcType")
+    JdbcType JdbcType() default JdbcType.VARCHAR;
 
     /**
      * 字段的长度
@@ -39,7 +44,8 @@ public @interface Field {
      * 数字类型使用，小数点后位数，
      * default: 0
      */
-    int decimal() default 0;
+    @AliasFor(annotation = TableField.class, attribute = "numericScale")
+    String numericScale() default "";
 
     /**
      * 是否为空

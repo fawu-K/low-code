@@ -1,11 +1,11 @@
 package com.kang.web.filter;
 
+import jakarta.servlet.ReadListener;
+import jakarta.servlet.ServletInputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequestWrapper;
 import org.springframework.util.StreamUtils;
 
-import javax.servlet.ReadListener;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrappe
 
     /**
      * 覆盖getParameter方法，将参数名和参数值都做xss & sql过滤。<br/>
-     * 如果需要获得原始的值，则通过super.getParameterValues(name)来获取<br/>
+     * 如果需要获得原始的值，则通过super.getParameterValues(value)来获取<br/>
      * getParameterNames,getParameterValues和getParameterMap也可能需要覆盖
      */
     @Override
@@ -77,7 +77,7 @@ public class XssAndSqlHttpServletRequestWrapper extends HttpServletRequestWrappe
 
     /**
      * 覆盖getHeader方法，将参数名和参数值都做xss & sql过滤。<br/>
-     * 如果需要获得原始的值，则通过super.getHeaders(name)来获取<br/>
+     * 如果需要获得原始的值，则通过super.getHeaders(value)来获取<br/>
      * getHeaderNames 也可能需要覆盖
      */
     @Override

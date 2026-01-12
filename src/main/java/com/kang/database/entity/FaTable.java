@@ -1,7 +1,7 @@
 package com.kang.database.entity;
 
-import com.kang.database.annotation.Field;
-import com.kang.database.annotation.Table;
+import com.kang.database.annotation.ACTableField;
+import com.kang.database.annotation.ACTableName;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,30 +17,30 @@ import java.io.Serializable;
 
 @Data
 @Builder
-@Table
+@ACTableName
 public class FaTable extends BaseEntity implements Serializable {
 
     /**
      * 表名
      */
-    @Field(length = 64, comment = "表名")
+    @ACTableField(length = 64, comment = "表名")
     private String tableName;
 
     /**
      * 包名
      */
-    @Field(comment = "包名")
+    @ACTableField(comment = "包名")
     private String packageName;
 
     /**
      * 类名
      */
-    @Field(length = 64, comment = "类名")
+    @ACTableField(length = 64, comment = "类名")
     private String className;
 
     /**
      * 生成文件需要保存的全路径
      */
-    @Field(comment = "生成文件需要保存的全路径")
+    @ACTableField(comment = "生成文件需要保存的全路径")
     private String path;
 }

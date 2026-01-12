@@ -3,9 +3,10 @@ package com.kang.database.service.impl;
 import com.kang.common.util.ClassUtil;
 import com.kang.common.util.CommonsUtils;
 import com.kang.common.vo.impl.FaTableVo;
-import com.kang.database.annotation.Id;
+import com.kang.database.annotation.ACTableField;
+import com.kang.database.annotation.ACTableId;
+import com.kang.database.annotation.ACTableName;
 import com.kang.database.annotation.NotTable;
-import com.kang.database.annotation.Table;
 import com.kang.database.entity.FaField;
 import com.kang.database.service.TableService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class TableServiceImpl implements TableService {
     public List<Class<?>> classIsBaseEntity(Set<Class<?>> classSet) {
         List<Class<?>> list = new ArrayList<>();
         for (Class<?> clazz : classSet) {
-            if (CommonsUtils.isNotEmpty(clazz.getAnnotation(Table.class)) &&
+            if (CommonsUtils.isNotEmpty(clazz.getAnnotation(ACTableName.class)) &&
                     CommonsUtils.isEmpty(clazz.getAnnotation(NotTable.class))) {
                 list.add(clazz);
             }
@@ -47,11 +48,11 @@ public class TableServiceImpl implements TableService {
         List<FaField> faFields = new ArrayList<>();
         for (Field field : fields) {
             // 获取所有带有Field注解的字段
-            com.kang.database.annotation.Field annotation = field.getAnnotation(com.kang.database.annotation.Field.class);
+            ACTableField annotation = field.getAnnotation(ACTableField.class);
             // 当存在id注解时，使用id注解
-            Id id = field.getAnnotation(Id.class);
-            if (CommonsUtils.isNotEmpty(id)) {
-                annotation = id.annotationType().getAnnotation(com.kang.database.annotation.Field.class);
+            ACTableId ACTableId = field.getAnnotation(ACTableId.class);
+            if (CommonsUtils.isNotEmpty(ACTableId)) {
+                annotation = ACTableId.annotationType().getAnnotation(ACTableField.class);
             }
             if (CommonsUtils.isNotEmpty(annotation)) {
                 // 例用field注解中的信息组装成数据表中的字段信息
@@ -59,7 +60,11 @@ public class TableServiceImpl implements TableService {
                 faFields.add(faField);
             }
         }
-        faTableVo.setFields(faFields);
+
+        // 只有当字段列表不为空时才设置，否则可能导致创建空表
+        if (!faFields.isEmpty()) {
+            faTableVo.setFields(faFields);
+        }
 
         return faTableVo;
     }
@@ -75,9 +80,9 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public String entityToTable(Class<?> clazz) {
-        Table annotation = clazz.getAnnotation(Table.class);
+        ACTableName annotation = clazz.getAnnotation(ACTableName.class);
         if (annotation != null) {
-            return "".equals(annotation.name())? CommonsUtils.humpToLine(clazz.getSimpleName()): annotation.name();
+            return "".equals(annotation.value()) ? CommonsUtils.humpToLine(clazz.getSimpleName()) : annotation.value();
         }
         return null;
     }
