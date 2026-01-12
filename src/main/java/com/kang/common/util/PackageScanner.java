@@ -159,15 +159,19 @@ public class PackageScanner {
 
         // 将 . 替换为 /
         pattern = pattern.replace('.', '/');
-
-        // 处理 ** 通配符（匹配多级目录）
+        // 处理 ** 通配符（匹配多级目录），如 com/fawu/**/entity 转换为 com/fawu/**/entity/**/*.class
         if (pattern.contains("**")) {
             // 如果已经是完整的模式，直接使用
             if (pattern.endsWith("/**")) {
                 pattern += "/*.class";
             } else if (pattern.contains("**/")) {
-                // 确保路径正确
+                // 确保路径正确，如 com/fawu/**/entity -> com/fawu/**/entity/**/*.class
                 pattern = pattern.replace("**/", "**/");
+                pattern += "/**/*.class";
+            } else if (pattern.contains("/**")) {
+                // 处理类似 com/fawu/**entity 的情况
+                pattern = pattern.replace("/**", "/**/");
+                pattern += "/**/*.class";
             }
         }
         // 处理 * 通配符（匹配单级目录或类名）

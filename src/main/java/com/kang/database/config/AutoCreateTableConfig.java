@@ -4,6 +4,7 @@ import com.kang.database.enums.ACTableStrategy;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 /**
  * 自动创建数据库表配置
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @Getter
+@Component
 public class AutoCreateTableConfig {
 
     /**

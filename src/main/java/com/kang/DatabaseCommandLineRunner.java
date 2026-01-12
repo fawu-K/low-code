@@ -2,6 +2,7 @@ package com.kang;
 
 import com.kang.common.constant.Constants;
 import com.kang.common.util.ClassUtil;
+import com.kang.database.config.AutoCreateTableConfig;
 import com.kang.database.service.ACTableService;
 import com.kang.factory.FactoryBuilder;
 import com.kang.freeMarker.service.FreeMarkerService;
@@ -31,6 +32,7 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
     private final ApplicationContext applicationContext;
     private final FreeMarkerService freeMarkerService;
     private final ACTableService acTableService;
+    private final AutoCreateTableConfig autoCreateTableConfig;
 
     /**
      * 构造方法
@@ -39,6 +41,7 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
         this.applicationContext = applicationContext;
         this.freeMarkerService = freeMarkerService;
         this.acTableService = acTableService;
+        this.autoCreateTableConfig = applicationContext.getBean(AutoCreateTableConfig.class);
     }
 
     @Override
@@ -67,8 +70,7 @@ public class DatabaseCommandLineRunner implements CommandLineRunner {
             if (enableAutoDB.entityToTable()) {
                 log.debug("开始执行实体类生成数据表功能");
                 // 使用默认包名，或从配置中获取
-                String entityPackage = applicationContext.getEnvironment()
-                        .getProperty("fawu.table.auto-create.entity-package");
+                String entityPackage = autoCreateTableConfig.getEntityPackage();
                 if (entityPackage == null || entityPackage.isEmpty()) {
                     // 如果配置文件没有配置实体类包，则使用启动类所在的包
                     entityPackage = mainClazz.getPackage().getName();

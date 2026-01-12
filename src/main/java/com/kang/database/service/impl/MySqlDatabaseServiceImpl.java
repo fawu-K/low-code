@@ -2,6 +2,7 @@ package com.kang.database.service.impl;
 
 import com.kang.common.util.CommonsUtils;
 import com.kang.common.vo.impl.FaTableVo;
+import com.kang.database.config.AutoCreateTableConfig;
 import com.kang.database.entity.Column;
 import com.kang.database.mapper.DatabaseMapper;
 import com.kang.database.service.DatabaseService;
@@ -22,18 +23,21 @@ import java.util.List;
 @Slf4j
 @Service
 public class MySqlDatabaseServiceImpl implements DatabaseService {
-    private DatabaseMapper dbMapper;
+    private final DatabaseMapper dbMapper;
 
-    private TableService tableService;
+    private final TableService tableService;
+
+    private final AutoCreateTableConfig autoCreateTableConfig;
 
     /**
      * 构建方法初始化参数
      * @param dbMapper
      * @param tableService
      */
-    public MySqlDatabaseServiceImpl(DatabaseMapper dbMapper, TableService tableService) {
+    public MySqlDatabaseServiceImpl(DatabaseMapper dbMapper, TableService tableService, AutoCreateTableConfig autoCreateTableConfig) {
         this.dbMapper = dbMapper;
         this.tableService = tableService;
+        this.autoCreateTableConfig = autoCreateTableConfig;
     }
 
     @Override
