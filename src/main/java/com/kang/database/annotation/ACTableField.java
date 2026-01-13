@@ -36,10 +36,10 @@ public @interface ACTableField {
 
     /**
      * 表示字段类型
-     * default: {@code JdbcType.NULL}
+     * default: {@code jdbcType.NULL}
      */
     @AliasFor(annotation = TableField.class, attribute = "jdbcType")
-    JdbcType JdbcType() default JdbcType.NULL;
+    JdbcType jdbcType() default JdbcType.NULL;
 
     /**
      * 字段的长度

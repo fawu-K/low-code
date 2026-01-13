@@ -44,14 +44,14 @@ public class BaseEntity implements Serializable {
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
-    @ACTableField(JdbcType = JdbcType.TIMESTAMP, comment = "创建时间")
+    @ACTableField(jdbcType = JdbcType.TIMESTAMP, comment = "创建时间")
     private ZonedDateTime created;
 
     /**
      * 修改时间
      */
     @TableField(fill = FieldFill.UPDATE)
-    @ACTableField(JdbcType = JdbcType.TIMESTAMP, comment = "修改时间")
+    @ACTableField(jdbcType = JdbcType.TIMESTAMP, comment = "修改时间")
     private ZonedDateTime updated;
 
     /**

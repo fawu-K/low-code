@@ -1,5 +1,6 @@
 package com.kang.database.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.kang.common.type.DatabaseFieldType;
 import com.kang.common.util.CommonsUtils;
 import com.kang.database.annotation.ACTableField;
@@ -48,7 +49,7 @@ public class FaField extends BaseEntity implements Serializable {
     /**
      * 字段长度
      */
-    @ACTableField(JdbcType = JdbcType.INTEGER, length = "4", comment = "字段长度")
+    @ACTableField(jdbcType = JdbcType.INTEGER, length = "4", comment = "字段长度")
     private String length;
 
     /**
@@ -90,7 +91,7 @@ public class FaField extends BaseEntity implements Serializable {
             length += "," + aCTableField.numericScale();
         }
 
-        this.setFieldTypeAndLength(field, aCTableField.JdbcType(), length);
+        this.setFieldTypeAndLength(field, aCTableField.jdbcType(), length);
 
         this.isNull = aCTableField.isNull();
         this.isMajorKey = aCTableField.isMajorKey();
@@ -104,6 +105,20 @@ public class FaField extends BaseEntity implements Serializable {
         this.isNull = true;
         this.isMajorKey = false;
 
+    }
+
+    public FaField(String tableName, Field field, TableField tableField) {
+        this.tableName = tableName;
+        if ("".equals(tableField.value())) {
+            this.fieldName = CommonsUtils.humpToLine(field.getName());
+        } else {
+            this.fieldName = tableField.value();
+        }
+
+        this.setFieldTypeAndLength(field, tableField.jdbcType(), null);
+
+        this.isNull = true;
+        this.isMajorKey = false;
     }
 
     public void setFieldTypeAndLength(Field field, JdbcType jdbcType, String length) {

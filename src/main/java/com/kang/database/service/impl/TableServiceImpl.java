@@ -1,5 +1,6 @@
 package com.kang.database.service.impl;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.kang.common.util.ClassUtil;
 import com.kang.common.util.CommonsUtils;
 import com.kang.common.vo.impl.FaTableVo;
@@ -47,17 +48,27 @@ public class TableServiceImpl implements TableService {
         List<Field> fields = ClassUtil.getAllFields(clazz);
         List<FaField> faFields = new ArrayList<>();
         for (Field field : fields) {
-            // 获取所有带有ACTableField注解的字段
-            ACTableField annotation = field.getAnnotation(ACTableField.class);
+            // 获取TableF
+            TableField tableField = field.getAnnotation(TableField.class);
+            // 获取ACTableField注解
+            ACTableField acTableField = field.getAnnotation(ACTableField.class);
             // 当存在id注解时，使用id注解
             ACTableId ACTableId = field.getAnnotation(ACTableId.class);
             if (CommonsUtils.isNotEmpty(ACTableId)) {
-                annotation = ACTableId.annotationType().getAnnotation(ACTableField.class);
+                acTableField = ACTableId.annotationType().getAnnotation(ACTableField.class);
             }
-            if (CommonsUtils.isNotEmpty(annotation)) {
-                if (annotation.exist()) {
-                    // 例用ACTableField注解中的信息组装成数据表中的字段信息
-                    FaField faField = new FaField(clazz.getName(), field, annotation);
+
+
+            if (CommonsUtils.isNotEmpty(tableField)) {
+                // 使用TableField注解中的信息组装成数据表中的字段信息
+                if (tableField.exist()) {
+                    FaField faField = new FaField(clazz.getName(), field, tableField);
+                    faFields.add(faField);
+                }
+            } else if (CommonsUtils.isNotEmpty(acTableField)) {
+                if (acTableField.exist()) {
+                    // 使用ACTableField注解中的信息组装成数据表中的字段信息
+                    FaField faField = new FaField(clazz.getName(), field, acTableField);
                     faFields.add(faField);
                 }
             } else {
