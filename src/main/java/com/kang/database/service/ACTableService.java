@@ -35,7 +35,6 @@ public class ACTableService {
 
     @Async
     public void saveTable(String mainPackage) {
-        // TODO: 实现通过实体类建表的动作
         log.debug("开始实现通过实体类建表的动作");
 
         Set<Class<?>> classes = new HashSet<>();

@@ -32,10 +32,11 @@
         CREATE TABLE ${tableVo.tableName}
         <foreach collection="tableVo.fields" item="field" open="(" separator=","
                  close=")">
-            ${field.fieldName} ${field.fieldType}(${field.length})
+            ${field.fieldName} ${field.fieldType}
+            <if test="field.length != null and field.length != ''">(${field.length})</if>
             <if test="!field.isNull">NOT NULL</if>
             <if test="field.isMajorKey">PRIMARY KEY</if>
-            COMMENT #{field.comment}
+            <if test="field.comment != null and field.comment != ''">COMMENT #{field.comment}</if>
         </foreach>
     </insert>
 </mapper>

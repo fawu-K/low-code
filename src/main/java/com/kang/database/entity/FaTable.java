@@ -23,7 +23,7 @@ public class FaTable extends BaseEntity implements Serializable {
     /**
      * 表名
      */
-    @ACTableField(length = 64, comment = "表名")
+    @ACTableField(length = "64", comment = "表名")
     private String tableName;
 
     /**
@@ -35,7 +35,7 @@ public class FaTable extends BaseEntity implements Serializable {
     /**
      * 类名
      */
-    @ACTableField(length = 64, comment = "类名")
+    @ACTableField(length = "64", comment = "类名")
     private String className;
 
     /**

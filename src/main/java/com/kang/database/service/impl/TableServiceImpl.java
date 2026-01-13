@@ -47,7 +47,7 @@ public class TableServiceImpl implements TableService {
         List<Field> fields = ClassUtil.getAllFields(clazz);
         List<FaField> faFields = new ArrayList<>();
         for (Field field : fields) {
-            // 获取所有带有Field注解的字段
+            // 获取所有带有ACTableField注解的字段
             ACTableField annotation = field.getAnnotation(ACTableField.class);
             // 当存在id注解时，使用id注解
             ACTableId ACTableId = field.getAnnotation(ACTableId.class);
@@ -55,8 +55,14 @@ public class TableServiceImpl implements TableService {
                 annotation = ACTableId.annotationType().getAnnotation(ACTableField.class);
             }
             if (CommonsUtils.isNotEmpty(annotation)) {
-                // 例用field注解中的信息组装成数据表中的字段信息
-                FaField faField = new FaField(clazz.getName(), CommonsUtils.humpToLine(field.getName()), annotation);
+                if (annotation.exist()) {
+                    // 例用ACTableField注解中的信息组装成数据表中的字段信息
+                    FaField faField = new FaField(clazz.getName(), field, annotation);
+                    faFields.add(faField);
+                }
+            } else {
+                // 当没有ACTableField注解时，尝试从字段中获取字段信息
+                FaField faField = new FaField(clazz.getName(), field);
                 faFields.add(faField);
             }
         }

@@ -4,6 +4,7 @@ import com.kang.common.util.CommonsUtils;
 import com.kang.common.vo.impl.FaTableVo;
 import com.kang.database.config.AutoCreateTableConfig;
 import com.kang.database.entity.Column;
+import com.kang.database.entity.FaTable;
 import com.kang.database.mapper.DatabaseMapper;
 import com.kang.database.service.DatabaseService;
 import com.kang.database.service.TableService;
@@ -55,11 +56,14 @@ public class MySqlDatabaseServiceImpl implements DatabaseService {
     }
 
     @Override
-    public void saveTable(List<Class<?>> tables) {
+    public void saveTable(List<Class<?>> entityClasses) {
 
-        // TODO:获取当前数据库中所有的表
+        // TODO: 区分不同的建表策略，执行代码
+        // 获取当前数据库中所有的表
+        List<FaTable> tables = dbMapper.getTables();
 
-        for (Class<?> clazz : tables) {
+
+        for (Class<?> clazz : entityClasses) {
 
             String tableName = CommonsUtils.humpToLine(clazz.getSimpleName());
             if (!isHaveTable(tableName)) {

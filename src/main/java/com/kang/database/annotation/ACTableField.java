@@ -28,21 +28,27 @@ public @interface ACTableField {
     String value() default "";
 
     /**
+     * 字段在数据库中是否存在
+     * default: true
+     */
+    @AliasFor(annotation = TableField.class, attribute = "exist")
+    boolean exist() default true;
+
+    /**
      * 表示字段类型
-     * default: {@code Type.VARCHAR}
+     * default: {@code JdbcType.NULL}
      */
     @AliasFor(annotation = TableField.class, attribute = "jdbcType")
-    JdbcType JdbcType() default JdbcType.VARCHAR;
+    JdbcType JdbcType() default JdbcType.NULL;
 
     /**
      * 字段的长度
-     * default: 255
+     * default: 0
      */
-    int length() default 255;
+    String length() default "";
 
     /**
-     * 数字类型使用，小数点后位数，
-     * default: 0
+     * 数字类型使用，小数点后位数
      */
     @AliasFor(annotation = TableField.class, attribute = "numericScale")
     String numericScale() default "";
